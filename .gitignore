@@ -1,0 +1,65 @@
+# Node.js 相關
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# 環境設定檔
+.env
+.env.local
+.env.*.local
+
+# TypeScript 編譯輸出的 JavaScript 檔案
+dist/
+build/
+out/
+
+# IDE 和編輯器相關
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.tgz
+*.DS_Store
+
+# 作業系統檔案
+Thumbs.db
+.DS_Store
+
+# 測試報告
+coverage/
+*.lcov
+
+# 臨時檔案
+tmp/
+temp/
+*.pid
+*.seed
+*.pid.lock
+
+# 打包檔案
+*.zip
+*.tar.gz
+*.tgz
+
+# 與 Git 衝突的檔案
+*.orig
+
+# SQLite
+*.sqlite
+*.sqlite3
+
+# 打包檔案
+*.bundle.js
+*.bundle.js.map
+*.chunk.js
+
+# 靜態資源輸出
+public/
