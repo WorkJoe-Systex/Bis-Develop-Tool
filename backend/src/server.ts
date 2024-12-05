@@ -1,6 +1,7 @@
-import express from 'express';
 import userRoutes from './routes/userRoutes';
+import express from 'express';
 import cors from 'cors';
+import './database'; // 執行`自執行函數`
 
 const app = express();
 const port = 3000;
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // for test
 app.use('/api/users', userRoutes);
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -26,8 +26,11 @@ export const createUser = async (req: Request, res: Response) => {
 
     // 回傳 HTTP 201 狀態碼（表示創建成功）及成功訊息
     res.status(201).json({ message: 'User added successfully' });
+
+    console.log(`User ${name} added successfully`);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
+    console.log(`Controller error:${error.message}`);
   }
 };
 

@@ -16,7 +16,10 @@ export const createUser = async (name: string) => {
   
   // 檢查使用者是否已存在
   const existingUser = await userModel.findUserByName(formattedName);
-  if (existingUser) {
+  console.log(`name:${name}`);
+  console.log(`existingUser:${existingUser}`);
+  console.log(`existingUser.length:${existingUser.length}`);
+  if (existingUser.includes(name)) {
     throw new Error('User already exists.');
   }
   

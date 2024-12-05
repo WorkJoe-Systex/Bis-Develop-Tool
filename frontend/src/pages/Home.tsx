@@ -6,18 +6,18 @@ import { User } from '../types';
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-
+  
   // useEffect 用來在組件首次渲染時抓取用戶資料。這裡的 [] 表示這個副作用只會執行一次，即組件掛載時
   useEffect(() => {
-
+    
     // Promise：是 JavaScript 用來處理異步操作的標準，代表一個尚未完成的操作，會返回一個結果或錯誤
     // then()：處理 Promise 成功的情況。
     // catch()：處理 Promise 失敗的情況。
     // finally()：無論 Promise 成功或失敗，最終都會執行的回呼函數。
-
+    
     // fetchUsers() 會返回用戶資料。如果返回的資料是陣列，就用 setUsers 更新狀態。如果資料格式不是陣列，就在控制台輸出錯誤訊息，並清空 users
     fetchUsers()
-      .then((data) => {
+    .then((data) => {
         if (Array.isArray(data)) {
           setUsers(data);
         } else {

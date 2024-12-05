@@ -10,19 +10,19 @@ const API_URL = 'http://localhost:3000/api/users';
 
 // `async`表示該參數為"異步函數"
 export const fetchUsers = async (): Promise<User[]> => {
-    // `fetch`發送HTTP請求至後端，並接收response
-    // `await`關鍵字，表示等待 fetch 操作完成，然後將結果賦值給 response 變數
-    const response = await fetch('/api/users'); // API 路徑
+  // `fetch`發送HTTP請求至後端，並接收response
+  // `await`關鍵字，表示等待 fetch 操作完成，然後將結果賦值給 response 變數
+  const response = await fetch(API_URL); // API 路徑
 
-    // `response.json()` 方法將 response 物件中的 JSON 內容解析為 JavaScript 對象。該操作為異步的，因此需要 await 來等待結果。
-    const data = await response.json();
-  
-    // 確認返回的數據是否為陣列
-    if (!Array.isArray(data)) {
-      throw new Error('Invalid data format: expected an array');
-    }
-    return data;
-  };  
+  // `response.json()` 方法將 response 物件中的 JSON 內容解析為 JavaScript 對象。該操作為異步的，因此需要 await 來等待結果。
+  const data = await response.json();
+
+  // 確認返回的數據是否為陣列
+  if (!Array.isArray(data)) {
+    throw new Error('Invalid data format: expected an array');
+  }
+  return data;
+};  
 
 // `async`:異步函數、接收 name 字串參數
 export async function addUser(name: string) {
