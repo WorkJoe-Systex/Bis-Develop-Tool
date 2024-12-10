@@ -1,6 +1,6 @@
 import { Path } from '../types';
 
-const API_URL = 'http://localhost:3000/api/compressed';
+const API_URL = 'http://localhost:3000/api/path';
 
 // 異步函數：可以讓你在等待異步操作完成的同時不會阻塞程式的其他部分，通過 async 和 await 來實現
 // Promise：是 JavaScript 用來處理異步操作的標準，代表一個尚未完成的操作，會返回一個結果或錯誤

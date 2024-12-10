@@ -1,4 +1,4 @@
-import compressedRoutes from './routes/pathRoutes';
+import pathRoutes from './routes/pathRoutes';
 import userRoutes from './routes/userRoutes';
 import express from 'express';
 import cors from 'cors';
@@ -19,8 +19,8 @@ app.use(express.json());
 // for test
 app.use('/api/users', userRoutes);
 
-// compressed file to .zip
-app.use('/api/compressed', compressedRoutes);
+// update & select path
+app.use('/api/path', pathRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
