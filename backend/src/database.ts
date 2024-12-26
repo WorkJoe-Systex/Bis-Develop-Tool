@@ -33,6 +33,14 @@ export async function getDatabase() {
       path TEXT
     )
   `);
+  await db.run(`
+    CREATE TABLE IF NOT EXISTS TB_FILETYPE (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+      type TEXT,
+      fileType TEXT
+    )
+  `);
   console.log('Database initialized');
 })();
 

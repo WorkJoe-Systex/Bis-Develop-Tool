@@ -1,13 +1,13 @@
 import db from '../database';
 
-export interface User {
-  id: number;
-  name: string;
-}
-
 export async function getPath(serverType: string, name: string): Promise<{ path: string }[]> {
   const database = await db;
   return database.all('SELECT path FROM TB_PATH WHERE serverType = ? AND name = ?', [serverType, name]);
+}
+
+export async function getPathByServerType(serverType: string): Promise<{ path: string; name: string; serverType: string }[]> {
+  const database = await db;
+  return database.all('SELECT path, name, serverType FROM TB_PATH WHERE serverType = ?', [serverType]);
 }
 
 export async function updatePath(path: string, serverType: string, name: string): Promise<void> {

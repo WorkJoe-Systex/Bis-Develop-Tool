@@ -1,5 +1,8 @@
 import pathRoutes from './routes/pathRoutes';
 import userRoutes from './routes/userRoutes';
+import testRoutes from './routes/testRoutes';
+import filesRoutes from './routes/filesRoutes';
+import compressRoutes from './routes/compressRoutes';
 import express from 'express';
 import cors from 'cors';
 import './database'; // 執行`自執行函數`
@@ -18,9 +21,16 @@ app.use(express.json());
 
 // for test
 app.use('/api/users', userRoutes);
+app.use('/api/test', testRoutes);
 
 // update & select path
 app.use('/api/path', pathRoutes);
+
+// view target file directory
+app.use('/api/files', filesRoutes);
+
+// compress file to zip
+app.use('/api/compress', compressRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
