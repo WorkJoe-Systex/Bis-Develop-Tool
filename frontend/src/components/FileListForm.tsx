@@ -4,6 +4,7 @@ import { searchFiles, compressToZip } from '../services/compressedService';
 const FileListForm: React.FC = () => {
   const [files, setFiles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [csvName, setCsvName] = useState<string>(''); // 管理 CSV_NAME
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
@@ -15,7 +16,6 @@ const FileListForm: React.FC = () => {
       try {
         const data = await searchFiles('?serverType=local&name=target');
         setFiles(data.files); // 使用返回的檔案列表
-        console.log(files);
       } catch (err: any) {
         setError('Failed to load files');
         console.error(err);
@@ -28,11 +28,17 @@ const FileListForm: React.FC = () => {
 
   // 處理檔案選擇
   const handleFileSelect = (file: string) => {
-    setSelectedFiles((prevSelected) =>
-      prevSelected.includes(file)
-        ? prevSelected.filter((f) => f !== file)  // 取消選擇
-        : [...prevSelected, file]  // 選擇檔案
-    );
+    setSelectedFiles((prevSelected) => {
+      const updatedSelection = prevSelected.includes(file)
+        ? prevSelected.filter((f) => f !== file) // 取消選擇
+        : [...prevSelected, file]; // 選擇檔案
+
+      // 如果是第一次勾選檔案，將該檔案名填入 CSV_NAME
+      if (!prevSelected.includes(file) && updatedSelection.length === 1) {
+        setCsvName(file);
+      }
+      return updatedSelection;
+    });
   };
 
   // 處理下一步操作
@@ -41,8 +47,13 @@ const FileListForm: React.FC = () => {
     console.log('Selected files:', selectedFiles);
 
     try {
-      const data = await compressToZip(selectedFiles);
-      console.log('Compression successful:', data);
+      if (selectedFiles.length !== 0) {
+        const data = await compressToZip(selectedFiles);
+        console.log('Compression successful:', data);
+      } else {
+        setCsvName('');
+        alert('Choose the file first');
+      }
     } catch (err: any) {
       console.error('Error:', err.message);
       alert('An error occurred.');
@@ -52,21 +63,41 @@ const FileListForm: React.FC = () => {
   return (
     <div>
       <h1>File List</h1>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      <ul>
-        {files.map((file) => (
-          <li key={file}>
-            <input
-              type="checkbox"
-              checked={selectedFiles.includes(file)}
-              onChange={() => handleFileSelect(file)}
-            />
-            {file}
-          </li>
-        ))}
-      </ul>
-      <button onClick={handleNextStep}>Next Step</button>
+      <div>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
+        <ul>
+          {files.map((file) => (
+            <li key={file}>
+              <input
+                id={file}
+                type="checkbox"
+                checked={selectedFiles.includes(file)}
+                onChange={() => handleFileSelect(file)}
+              />
+              <label htmlFor={file}>{file}</label>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <label htmlFor="CSV_NAME">CSV File Name</label>
+        <input
+          id="CSV_NAME"
+          name="CSV_NAME"
+          type="text"
+          style={{ width: '200px' }}
+          value={csvName}
+          onChange={(e) => setCsvName(e.target.value)} // 實時更新 CSV_NAME 的值
+        />
+        <button 
+          id="BTN_COMPRESS"
+          onClick={handleNextStep}
+          disabled={!csvName} // 當 CSV_NAME 為空時禁用按鈕
+        >
+          Next Step
+        </button>
+      </div>
     </div>
   );
 };
