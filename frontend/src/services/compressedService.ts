@@ -21,21 +21,20 @@ export const searchFiles = async (url: string): Promise<Files> => {
   return data; // 返回完整的 Files 物件
 };
 
-export const compressToZip = async (Files: string[]): Promise<Files> => {
+export const compressToZip = async (Files: string[], csvName: string): Promise<Files> => {
   // API 路徑
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ files: Files }), // 將 path 作為 JSON 傳遞
+    body: JSON.stringify({ files: Files, csvName: csvName }), // 將 path 作為 JSON 傳遞
   });
 
   const data = await response.json();
-  console.log(data);
 
   if (response.ok) {
-    alert(`ZIP file created: ${data}`);
+    alert(`ZIP file created: ${data.zipName}`);
   } else {
     alert('Failed to compress files.');
   }

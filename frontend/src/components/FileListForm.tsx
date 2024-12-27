@@ -48,8 +48,8 @@ const FileListForm: React.FC = () => {
 
     try {
       if (selectedFiles.length !== 0) {
-        const data = await compressToZip(selectedFiles);
-        console.log('Compression successful:', data);
+        const data = await compressToZip(selectedFiles, csvName);
+        console.log('Compression successful:', data.zipName);
       } else {
         setCsvName('');
         alert('Choose the file first');
