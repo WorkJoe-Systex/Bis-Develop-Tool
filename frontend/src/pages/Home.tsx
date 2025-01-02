@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import UpdatePathForm from '../components/UpdatePathForm';
+import UpdatePathForm from '../components/Home/UpdatePathForm';
 
 const Home: React.FC = () => {
   // `useNavigate()`進行路由跳轉

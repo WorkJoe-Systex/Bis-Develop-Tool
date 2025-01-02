@@ -1,6 +1,6 @@
 import React from 'react';
 import useNavigateToHome from '../hooks/useNavigateToHome';
-import FileListForm from '../components/FileListForm';
+import FileListForm from '../components/Compressed/FileListForm';
 
 const Compressed: React.FC = () => {
   const { goToHomePage } = useNavigateToHome();

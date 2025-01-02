@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUsers, addUser, deleteUser } from '../services/userService';
 import useNavigateToHome from '../hooks/useNavigateToHome';
-import UserForm from '../components/UserForm';
+import UserForm from '../components/Test/UserForm';
 import { User } from '../types';
 
 const Home: React.FC = () => {
