@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { searchFiles, compressToZip } from '../services/compressedService';
+import { searchFiles, compressToZip } from '../../services/compressedService';
 
 const FileListForm: React.FC = () => {
   const [files, setFiles] = useState<string[]>([]);

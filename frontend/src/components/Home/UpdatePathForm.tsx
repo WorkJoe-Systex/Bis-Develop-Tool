@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPath, updateTargetPath } from '../services/pathService';
+import { fetchPath, updateTargetPath } from '../../services/pathService';
 
 // 子組件：可重複使用的表單
 interface PathFormProps {
