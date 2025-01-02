@@ -5,6 +5,7 @@ const FileListForm: React.FC = () => {
   const [files, setFiles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [csvName, setCsvName] = useState<string>(''); // 管理 CSV_NAME
+  const [delList, setDelList] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
@@ -49,6 +50,10 @@ const FileListForm: React.FC = () => {
     try {
       if (selectedFiles.length !== 0) {
         const data = await compressToZip(selectedFiles, csvName);
+        if (data.delList) {
+          setDelList(data.delList);
+          console.log(`data.delList:${data.delList}`)
+        }
         console.log('Compression successful:', data.zipName);
       } else {
         setCsvName('');
@@ -97,6 +102,21 @@ const FileListForm: React.FC = () => {
         >
           Next Step
         </button>
+      </div>
+      <div>
+        {/* 只有在 delList 有資料時才顯示 */}
+        {delList.length > 0 && (
+          <div>
+            <h2>Deleted Files:</h2>
+            <ul>
+              {delList.map((del, index) => (
+                <li key={index}>
+                  <label>{del}</label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ export const compressFiles = async (req: Request, res: Response) => {
   try {
     // 呼叫 Service 進行檔案壓縮
     const response = await compressService.compressFilesService (files, csvName);
-    res.status(200).json({ files:response.files, zipPath:response.zipPath, zipName:response.zipName });
+    res.status(200).json({ files:response.files, zipPath:response.zipPath, zipName:response.zipName, delList:response.delList });
     // res.status(200).json({ files:[''], ZIP: response });
   } catch (error: any) {
     console.error('Error in compressFiles controller:', error);

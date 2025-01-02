@@ -183,12 +183,14 @@ const checkRepeatSource = async (actionType: string, server: string, fileType: s
       }
       break;
     case'D' :
+      source = server.toLowerCase() + ',' + actionType.toUpperCase() + ',' + fileType.toUpperCase() + ',' + compressPath;
+
       if (DEL_FILE.length === 0 || 
-          DEL_FILE.includes(server.toLowerCase() + ',' + actionType.toUpperCase + ',' + fileType.toUpperCase + ',' + compressPath)) {
+          !DEL_FILE.includes(server.toLowerCase() + ',' + actionType.toUpperCase() + ',' + fileType.toUpperCase() + ',' + compressPath)) {
+        DEL_FILE.push(server.toLowerCase() + ',' + actionType.toUpperCase() + ',' + fileType.toUpperCase() + ',' + compressPath);
+      } else {
         REPEAT_FILE.push(source);
         return false;
-      } else {
-        DEL_FILE.push(server.toLowerCase() + ',' + actionType.toUpperCase + ',' + fileType.toUpperCase + ',' + compressPath);
       }
       break;
   }
@@ -335,6 +337,7 @@ export const compressFilesService = async (files: string[], csvName: string): Pr
   return {
     files: [''],
     zipPath: zipFilePath,
-    zipName: ZIP_FILENAME
+    zipName: ZIP_FILENAME,
+    delList: DEL_FILE
   };
 };
