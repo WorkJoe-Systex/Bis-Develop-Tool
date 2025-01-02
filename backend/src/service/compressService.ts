@@ -188,6 +188,7 @@ const checkRepeatSource = async (actionType: string, server: string, fileType: s
       if (DEL_FILE.length === 0 || 
           !DEL_FILE.includes(server.toLowerCase() + ',' + actionType.toUpperCase() + ',' + fileType.toUpperCase() + ',' + compressPath)) {
         DEL_FILE.push(server.toLowerCase() + ',' + actionType.toUpperCase() + ',' + fileType.toUpperCase() + ',' + compressPath);
+        return false;
       } else {
         REPEAT_FILE.push(source);
         return false;
@@ -229,6 +230,12 @@ export const compressFilesService = async (files: string[], csvName: string): Pr
   TARGET_DIR = (await pathModel.getPath('local', 'target'))[0].path; // 取CSV目標路徑
   OUTPUT_DIR = path.join(TARGET_DIR, 'archive'); // 壓縮檔案的輸出目錄
   const ZIP_FILENAME = await getUniqueFileName(OUTPUT_DIR, path.basename(csvName, path.extname(csvName)) + '.zip');
+
+  REPEAT_FILE = [];
+  ADD_FILE = [];
+  UPD_FILE = [];
+  DEL_FILE = [];
+
   console.log(`OUTPUT_DIR:${OUTPUT_DIR}`);
 
   ensureDir('outPut', OUTPUT_DIR);
