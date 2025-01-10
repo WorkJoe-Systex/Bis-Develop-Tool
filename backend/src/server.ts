@@ -2,6 +2,7 @@ import pathRoutes from './routes/pathRoutes';
 import userRoutes from './routes/userRoutes';
 import testRoutes from './routes/testRoutes';
 import filesRoutes from './routes/filesRoutes';
+import hostMsgRoutes from './routes/hostMsgRoutes';
 import compressRoutes from './routes/compressRoutes';
 import express from 'express';
 import cors from 'cors';
@@ -31,6 +32,9 @@ app.use('/api/files', filesRoutes);
 
 // compress file to zip
 app.use('/api/compress', compressRoutes);
+
+// host message
+app.use('/api/hostMsg', hostMsgRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

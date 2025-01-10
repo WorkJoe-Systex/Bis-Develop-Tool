@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import * as compressService from '../service/compressService';
 const { validateCompressRequest } = require('../models/compressModel');
 
-// 功能：取local存放.csv的路徑返回給前端
+// 功能：.csv檔案壓縮
 export const compressFiles = async (req: Request, res: Response) => {
   // schema 驗證邏輯
   const validationError = validateCompressRequest(req.body);
