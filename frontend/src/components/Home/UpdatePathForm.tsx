@@ -34,8 +34,8 @@ const UpdatePathForm: React.FC = () => {
     const fetchInitialData = async () => {
       try {
         // 假設從後端取得的初始數據格式為：
-        // [{ name: 'target', path: '/some/path1' }, { name: 'jbranch', path: '/some/path2' }]
-        const targetData = await fetchPath('local', 'target');
+        // [{ name: 'compress', path: '/some/path1' }, { name: 'jbranch', path: '/some/path2' }]
+        const targetData = await fetchPath('local', 'compress');
         const jbranchData = await fetchPath('local', 'jbranch');
 
         console.log(targetData);
@@ -64,7 +64,7 @@ const UpdatePathForm: React.FC = () => {
     e.preventDefault();
     // 構建 PUT 請求
     try {
-      const result = await updateTargetPath('local', 'target', targetPath);
+      const result = await updateTargetPath('local', 'compress', targetPath);
       console.log(`TragetPath updated successfully:${result}`);
     } catch (error) {
       alert('Failed to update tragetPath.');
@@ -90,7 +90,7 @@ const UpdatePathForm: React.FC = () => {
   return (
     <div>
       <PathForm
-        label="Target Path"
+        label="Compress Path"
         value={targetPath}
         onChange={setTargetPath}
         onSubmit={handleTargetPathSubmit}

@@ -227,7 +227,7 @@ async function getUniqueFileName(dir: string, filename: string): Promise<string>
 
 export const compressFilesService = async (files: string[], csvName: string): Promise<Files> => {
   JBRANCH_DIR = (await pathModel.getPath('local', 'jbranch'))[0].path; // 取Jbranch路徑
-  TARGET_DIR = (await pathModel.getPath('local', 'target'))[0].path; // 取CSV目標路徑
+  TARGET_DIR = (await pathModel.getPath('local', 'compress'))[0].path; // 取CSV目標路徑
   OUTPUT_DIR = path.join(TARGET_DIR, 'archive'); // 壓縮檔案的輸出目錄
   const ZIP_FILENAME = await getUniqueFileName(OUTPUT_DIR, path.basename(csvName, path.extname(csvName)) + '.zip');
 

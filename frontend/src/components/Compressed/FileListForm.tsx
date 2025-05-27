@@ -15,7 +15,7 @@ const FileListForm: React.FC = () => {
       setError(''); // 清空先前的錯誤訊息
       setIsLoading(true);
       try {
-        const data = await searchFiles('?serverType=local&name=target');
+        const data = await searchFiles('?serverType=local&name=compress');
         setFiles(data.files); // 使用返回的檔案列表
       } catch (err: any) {
         setError('Failed to load files');
