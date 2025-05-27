@@ -1,10 +1,10 @@
-import * as hostMsgService from '../service/hostMsgService';
+import * as hostMsgService from '../service/parserService';
 import { XMLParser } from 'fast-xml-parser';
 import { Request, Response } from 'express';
 import fs from 'fs';
 const { validateHostMsgRequest } = require('../models/hostMsgModel');
 
-export const readTiTotaXML = async (req: Request, res: Response) => {
+export const parseTiTotaXML = async (req: Request, res: Response) => {
   const parserOptions = {
     ignoreAttributes: false, // 保留屬性
     attributeNamePrefix: "", // 直接使用屬性名稱，移除屬性鍵的前綴

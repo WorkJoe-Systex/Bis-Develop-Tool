@@ -1,9 +1,9 @@
 import express from 'express';
-import { readTiTotaXML, updateXML } from '../controllers/hostMsgController';
+import { parseTiTotaXML, updateXML } from '../controllers/parserController';
 
 const router = express.Router();
 
-router.get('/read-titota-xml', readTiTotaXML);
+router.get('/parse-titota-xml', parseTiTotaXML);
 router.post('/update-xml', updateXML);
 
 export default router;
