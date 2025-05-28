@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as compressService from '../service/compressService';
+import * as compressService from '../services/compressService';
 const { validateCompressRequest } = require('../models/compressModel');
 
 // 功能：.csv檔案壓縮

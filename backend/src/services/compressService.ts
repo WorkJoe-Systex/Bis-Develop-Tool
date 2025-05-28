@@ -1,6 +1,6 @@
 import * as pathModel from '../models/pathModel';
 import * as typeModel from '../models/typeModel';
-import { Files } from '.././types';
+import { Files } from '../types';
 import archiver from 'archiver';
 import iconv from 'iconv-lite';
 import Papa from 'papaparse';

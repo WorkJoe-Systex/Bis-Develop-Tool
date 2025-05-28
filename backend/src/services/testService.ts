@@ -1,4 +1,4 @@
-import * as userModel from '../models/userModel';
+import * as userModel from '../models/testModel';
 
 export const getUsers = async () => {
   const users = await userModel.getAllUsers();

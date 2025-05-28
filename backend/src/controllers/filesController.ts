@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as filesService from '../service/filesService';
+import * as filesService from '../services/filesService';
 import path from "path";
 import fs from 'fs';
 

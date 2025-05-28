@@ -1,4 +1,4 @@
-import db from '../database';
+import db from '../config/database';
 
 export interface User {
   id: number;

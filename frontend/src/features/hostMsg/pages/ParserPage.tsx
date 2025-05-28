@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { parseTiTotaData } from '../../services/parserService';
-import { TiTota, SectionData } from '../../types';
+import { parseTiTotaData } from '../services/parserService';
+import { TiTota } from '../types';
 
 const ParserPage: React.FC = () => {
   const [titaStr, setTitaStr] = useState('');

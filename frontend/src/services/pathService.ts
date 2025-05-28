@@ -1,4 +1,4 @@
-import { Path } from '../types';
+import { Path } from '../types/types';
 
 const API_URL = 'http://localhost:3000/api/path';
 

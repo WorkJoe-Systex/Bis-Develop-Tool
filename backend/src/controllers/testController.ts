@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as userService from '../service/userService';
+import * as userService from '../services/testService';
 
 // 功能：抓取所有用戶資料並返回給前端
 export const getUsers = async (req: Request, res: Response) => {

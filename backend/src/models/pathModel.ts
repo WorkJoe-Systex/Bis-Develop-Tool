@@ -1,4 +1,4 @@
-import db from '../database';
+import db from '../config/database';
 
 export async function getPath(serverType: string, name: string): Promise<{ path: string }[]> {
   const database = await db;

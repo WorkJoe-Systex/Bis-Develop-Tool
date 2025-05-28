@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { searchFiles, compressToZip } from '../../services/compressedService';
+import { searchFiles, compressToZip } from '../../compressed/services/compressedService';
 
-const HostMsgPage1: React.FC = () => {
+const HostMsgTable: React.FC = () => {
   const [files, setFiles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [csvName, setCsvName] = useState<string>(''); // 管理 CSV_NAME
@@ -41,4 +41,4 @@ const HostMsgPage1: React.FC = () => {
   );
 };
 
-export default HostMsgPage1;
+export default HostMsgTable;

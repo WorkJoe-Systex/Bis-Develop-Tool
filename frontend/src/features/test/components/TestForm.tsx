@@ -6,13 +6,13 @@ import React, { useState } from 'react';
 // 這些屬性需要事先定義類型，這樣 TypeScript 可以檢查是否正確傳遞了資料
 interface Props {
   // 這個函數接受一個字串參數 name，並且返回 void（即不會返回任何值）
-  // 表示父組件傳遞給 UserForm 的 onAddUser 屬性必須是一個函數，這個函數會接受一個 name 字串作為參數
+  // 表示父組件傳遞給 TestForm 的 onAddUser 屬性必須是一個函數，這個函數會接受一個 name 字串作為參數
   onAddUser: (name: string) => void;
 }
 
 // React.FC<Props> 是 React 的函數組件類型
-// 定義一個名為 UserForm 的函數組件，這個組件接收 Props 類型的屬性，並且使用其中的 onAddUser 函數來處理用戶提交的名字
-const UserForm: React.FC<Props> = ({ onAddUser }) => {
+// 定義一個名為 TestForm 的函數組件，這個組件接收 Props 類型的屬性，並且使用其中的 onAddUser 函數來處理用戶提交的名字
+const TestForm: React.FC<Props> = ({ onAddUser }) => {
 
   // 宣告`name`變數，預設值=''，`setName`用於設值`name`變數
   // 調用 setName 時，React 會重新渲染組件並顯示最新的狀態值
@@ -48,5 +48,5 @@ const UserForm: React.FC<Props> = ({ onAddUser }) => {
   );
 };
 
-// 將 UserForm 組件導出，這樣它可以在其他地方被引入和使用
-export default UserForm;
+// 將 TestForm 組件導出，這樣它可以在其他地方被引入和使用
+export default TestForm;

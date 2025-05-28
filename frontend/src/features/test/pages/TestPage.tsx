@@ -1,11 +1,11 @@
 // useEffect 和 useState 是 React 的 Hook，分別用來管理副作用和狀態
 import React, { useEffect, useState } from 'react';
-import { fetchUsers, addUser, deleteUser } from '../services/userService';
-import useNavigateToHome from '../hooks/useNavigateToHome';
-import UserForm from '../components/Test/UserForm';
+import { fetchUsers, addUser, deleteUser } from '../services/testService';
+import useNavigateToHome from '../../../hooks/useNavigateToHome';
+import TestForm from '../components/TestForm';
 import { User } from '../types';
 
-const Home: React.FC = () => {
+const TestPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   
   // useEffect 用來在組件首次渲染時抓取用戶資料。這裡的 [] 表示這個副作用只會執行一次，即組件掛載時
@@ -49,8 +49,8 @@ const Home: React.FC = () => {
   return (
     <div>
       <h1>Users</h1>
-      {/* UserForm 是一個子組件，並將 handleAddUser 函數作為 onAddUser 屬性傳遞給它 */}
-      <UserForm onAddUser={handleAddUser} />
+      {/* TestForm 是一個子組件，並將 handleAddUser 函數作為 onAddUser 屬性傳遞給它 */}
+      <TestForm onAddUser={handleAddUser} />
       <ul>
         {Array.isArray(users) && users.length > 0 ? (
           users.map((user) => (
@@ -67,4 +67,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default TestPage;

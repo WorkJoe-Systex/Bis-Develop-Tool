@@ -1,4 +1,4 @@
-import { Files, TiTota } from '../types';
+import { TiTota } from '../types';
 
 const API_URL = 'http://localhost:3000/api/hostMsg/parse-titota-xml';
 
