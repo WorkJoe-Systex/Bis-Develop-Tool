@@ -1,6 +1,6 @@
-import CompressedPage from '../features/compressed/pages/CompressedPage';
-import HostMsgPage from '../features/hostMsg/pages/HostMsgPage';
-import TestPage from '../features/test/pages/TestPage';
+import CompressedPage from '../features/Compressed/pages/CompressedPage';
+import HostMsgPage from '../features/HostMsg/pages/HostMsgPage';
+import TestPage from '../features/Test/pages/TestPage';
 import Home from '../pages/Home';
 import React from 'react';
 
