@@ -1,29 +1,19 @@
-import express from 'express';
-import { getUsers, createUser, removeUser } from '../controllers/testController';
-import { parseTiTotaXML, updateXML } from '../controllers/parserController';
-import { getPath, updatePath } from '../controllers/pathController';
-import { compressFiles } from '../controllers/compressController';
-import { getFiles } from '../controllers/filesController';
+import express from 'express'
+import userRoutes from './userRoutes'
+import pathRoutes from './pathRoutes'
+import filesRoutes from './filesRoutes'
+import compressRoutes from './compressRoutes'
+import hostMsgRoutes from './hostMsgRoutes'
+import testRoutes from './testRoutes'
 
-const router = express.Router();
+const router = express.Router()
 
-// hostMsg
-router.get('/parse-titota-xml', parseTiTotaXML);
-router.post('/update-xml', updateXML);
+router.use('/users', userRoutes);
+router.use('/path', pathRoutes);
+router.use('/files', filesRoutes);
+router.use('/compress', compressRoutes);
+router.use('/hostMsg', hostMsgRoutes);
 
-// use
-router.get('/', getUsers);
-router.post('/', createUser);
-router.delete('/:id', removeUser);
+router.use('/api/test', testRoutes);
 
-// path
-router.get('/:serverType/:name', getPath);
-router.put('/:serverType/:name', updatePath);
-
-// compress
-router.post('/', compressFiles);
-
-// getFiles
-router.get('/', getFiles);
-
-export default router;
+export default router
