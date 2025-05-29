@@ -1,4 +1,4 @@
-import * as hostMsgService from '../service/parserService';
+import * as hostMsgService from '../services/parserService';
 import { XMLParser } from 'fast-xml-parser';
 import { Request, Response } from 'express';
 import fs from 'fs';

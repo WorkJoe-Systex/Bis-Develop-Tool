@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as pathService from '../service/pathService';
+import * as pathService from '../services/pathService';
 
 // 功能：取local存放.csv的路徑返回給前端
 export const getPath = async (req: Request, res: Response) => {

@@ -1,4 +1,4 @@
-import db from '../database';
+import db from '../config/database';
 
 export async function getFileType(): Promise<{ name: string; type: string; fileType: string }[]> {
   const database = await db;
