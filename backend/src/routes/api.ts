@@ -8,7 +8,7 @@ import testRoutes from './testRoutes'
 
 const router = express.Router()
 
-router.use('/users', userRoutes);
+router.use('/user', userRoutes);
 router.use('/path', pathRoutes);
 router.use('/files', filesRoutes);
 router.use('/compress', compressRoutes);

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { searchFiles, compressToZip } from '../services/compressedService';
+import { searchFiles, compressToZip, updatePathType } from '../services/compressedService';
 
-const FileListForm: React.FC = () => {
+interface FileListFormProps {
+  pathType: 'SVN' | 'DEV';
+}
+
+const FileListForm: React.FC<FileListFormProps> = ({ pathType }) => {
   const [files, setFiles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [csvName, setCsvName] = useState<string>(''); // 管理 CSV_NAME
@@ -55,6 +59,7 @@ const FileListForm: React.FC = () => {
           console.log(`data.delList:${data.delList}`)
         }
         console.log('Compression successful:', data.zipName);
+        updatePathType(pathType);
       } else {
         setCsvName('');
         alert('Choose the file first');
@@ -67,7 +72,7 @@ const FileListForm: React.FC = () => {
 
   return (
     <div>
-      <h1>File List</h1>
+      <h3>File List</h3>
       <div>
         {isLoading && <p>Loading...</p>}
         {error && <p>Error: {error}</p>}

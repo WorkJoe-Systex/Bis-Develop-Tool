@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { getUsers, createUser, removeUser } from '../controllers/testController';
 import * as pathModel from '../models/pathModel';
 
 const router = express.Router();
@@ -16,6 +17,10 @@ export const getTest = async (req: Request, res: Response) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+router.get('/', getUsers);
+router.post('/', createUser);
+router.delete('/:id', removeUser);
 
 router.get('/', getTest);
 

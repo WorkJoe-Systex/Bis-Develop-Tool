@@ -4,3 +4,8 @@ export interface Files {
   zipName: string;
   delList: string[];
 }
+
+export interface UserInfo {
+  name: string;
+  compressedDir: string;
+}

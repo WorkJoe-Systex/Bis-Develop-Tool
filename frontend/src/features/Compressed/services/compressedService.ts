@@ -1,7 +1,8 @@
-import { Files } from '../types';
+import { Files, UserInfo } from '../types';
 
 const API_URL = 'http://localhost:3000/api/compress';
 const FILE_API_URL = 'http://localhost:3000/api/files';
+const USER_API_URL = 'http://localhost:3000/api/user';
 
 export const searchFiles = async (url: string): Promise<Files> => {
   const response = await fetch(`${FILE_API_URL}${url}`); // API 路徑
@@ -46,4 +47,33 @@ export const compressToZip = async (Files: string[], csvName: string): Promise<F
   }
 
   return data; // 返回完整的 Files 物件
+};
+
+export const queryUSERINFO = async (url: string): Promise<UserInfo> => {
+  const response = await fetch(`${USER_API_URL}${url}`); // API 路徑
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to fetch UserInfo');
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export const updatePathType = async (compressedDir: string) => {
+  // `fetch`發送HTTP請求至後端，並接收response
+  // `await`關鍵字，表示等待 fetch 操作完成，然後將結果賦值給 response 變數
+  const response = await fetch(USER_API_URL + `/admin`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ compressedDir }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Error: ${errorData.error}`);
+  }
 };
