@@ -41,6 +41,13 @@ export async function getDatabase() {
       fileType TEXT
     )
   `);
+  await db.run(`
+    CREATE TABLE IF NOT EXISTS TB_USERINFO (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+      compressedDir TEXT
+    )
+  `);
   console.log('Database initialized');
 })();
 
