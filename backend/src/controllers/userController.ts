@@ -20,14 +20,14 @@ export const getUserInfo = async (req: Request, res: Response) => {
 export const updateCompressedType = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name } = req.params; // 從路徑參數取得 name
-    const { compressedDir } = req.body; // 從請求體取得 compressedDir
+    const { compressedDir, zipType } = req.body; // 從請求體取得 compressedDir
 
     if (!compressedDir) {
       res.status(400).json({ error: 'CompressedDir is required' });
       return
     }
 
-    await userService.updateCompressedType(compressedDir, name); // 調用更新函數
+    await userService.updateCompressedType(compressedDir, zipType, name); // 調用更新函數
 
     res.status(200).json({ message: 'Path updated successfully' });
   } catch (error: any) {

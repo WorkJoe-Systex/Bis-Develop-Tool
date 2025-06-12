@@ -2,13 +2,13 @@ import db from '../config/database';
 
 export async function getUserInfo(name: string): Promise<{ path: string }[]> {
   const database = await db;
-  return database.all('SELECT compressedDir FROM TB_USERINFO WHERE name = ?', [name]);
+  return database.all('SELECT compressedDir, zipType FROM TB_USERINFO WHERE name = ?', [name]);
 }
 
-export async function updateCompressedType(compressedDir: string, name: string): Promise<void> {
+export async function updateCompressedType(compressedDir: string, zipType: string, name: string): Promise<void> {
   const result = await (await db).run(
-    'UPDATE TB_USERINFO SET compressedDir = ? WHERE name = ?',
-    [compressedDir, name]
+    'UPDATE TB_USERINFO SET compressedDir = ?, zipType = ? WHERE name = ?',
+    [compressedDir, zipType, name]
   );
 
   if (result.changes === 0) {

@@ -45,7 +45,8 @@ export async function getDatabase() {
     CREATE TABLE IF NOT EXISTS TB_USERINFO (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
-      compressedDir TEXT
+      compressedDir TEXT,
+      zipType TEXT
     )
   `);
   console.log('Database initialized');

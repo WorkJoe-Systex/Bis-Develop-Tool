@@ -6,9 +6,9 @@ export const getUserInfo = async (name: any) => {
   return data;
 };
 
-export const updateCompressedType = async (compressedDir: string, name: string) => {
+export const updateCompressedType = async (compressedDir: string, zipType: string, name: string) => {
   // const doUpdate = await pathModel.updateTargetPath(path, serverType, name);
-  await userModel.updateCompressedType(compressedDir, name);
+  await userModel.updateCompressedType(compressedDir, zipType, name);
   // 可以在這裡添加任何額外的業務邏輯，例如篩選、排序
 
   console.log(`PathType updated successfully.`);

@@ -26,6 +26,7 @@ const PathForm: React.FC<PathFormProps> = ({ label, value, onChange, onSubmit })
 const UpdatePathForm: React.FC = () => {
   const [targetPath, setTargetPath] = useState('');
   const [jbranchPath, setJBranchPath] = useState('');
+  const [devPath, setDEVPath] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -36,19 +37,24 @@ const UpdatePathForm: React.FC = () => {
         // 假設從後端取得的初始數據格式為：
         // [{ name: 'compress', path: '/some/path1' }, { name: 'jbranch', path: '/some/path2' }]
         const targetData = await fetchPath('local', 'compress');
-        const jbranchData = await fetchPath('local', 'jbranch');
+        const jbranchData = await fetchPath('SVN', 'jbranch');
+        const devData = await fetchPath('DEV', 'dev-dir');
 
         console.log(targetData);
         console.log(jbranchData);
+        console.log(devData);
         
         const target = targetData.find((item) => item.path);
         const jbranch = jbranchData.find((item) => item.path);
+        const dev = devData.find((item) => item.path);
 
         console.log(target);
         console.log(jbranch);
+        console.log(dev);
 
         setTargetPath(target?.path || ''); // 初始化 tragetPath
         setJBranchPath(jbranch?.path || ''); // 初始化 jbranchPath
+        setDEVPath(dev?.path || ''); // 初始化 devPath
       } catch (err) {
         setError('Failed to load initial data');
         console.error(err);
@@ -76,11 +82,23 @@ const UpdatePathForm: React.FC = () => {
     e.preventDefault();
     // 構建 PUT 請求
     try {
-      const result = await updateTargetPath('local', 'jbranch', jbranchPath);
+      const result = await updateTargetPath('SVN', 'jbranch', jbranchPath);
       console.log(`JBranchPath updated successfully:${result}`);
     } catch (error) {
       alert('Failed to update jbranchPath.');
       console.error('Form Error updating jbranchPath:', error);
+    }
+  };
+
+  const handleDEVPathSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // 構建 PUT 請求
+    try {
+      const result = await updateTargetPath('DEV', 'dev-dir', devPath);
+      console.log(`DEVPath updated successfully:${result}`);
+    } catch (error) {
+      alert('Failed to update devPath.');
+      console.error('Form Error updating devPath:', error);
     }
   };
 
@@ -100,6 +118,12 @@ const UpdatePathForm: React.FC = () => {
         value={jbranchPath}
         onChange={setJBranchPath}
         onSubmit={handleJBranchPathSubmit}
+      />
+      <PathForm
+        label="DEV Path"
+        value={devPath}
+        onChange={setDEVPath}
+        onSubmit={handleDEVPathSubmit}
       />
     </div>
     // <div>
