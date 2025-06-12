@@ -36,7 +36,7 @@ const UpdatePathForm: React.FC = () => {
         // 假設從後端取得的初始數據格式為：
         // [{ name: 'compress', path: '/some/path1' }, { name: 'jbranch', path: '/some/path2' }]
         const targetData = await fetchPath('local', 'compress');
-        const jbranchData = await fetchPath('local', 'jbranch');
+        const jbranchData = await fetchPath('SVN', 'jbranch');
 
         console.log(targetData);
         console.log(jbranchData);
@@ -76,7 +76,7 @@ const UpdatePathForm: React.FC = () => {
     e.preventDefault();
     // 構建 PUT 請求
     try {
-      const result = await updateTargetPath('local', 'jbranch', jbranchPath);
+      const result = await updateTargetPath('SVN', 'jbranch', jbranchPath);
       console.log(`JBranchPath updated successfully:${result}`);
     } catch (error) {
       alert('Failed to update jbranchPath.');

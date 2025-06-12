@@ -8,4 +8,5 @@ export interface Files {
 export interface UserInfo {
   name: string;
   compressedDir: string;
+  zipType: string;
 }

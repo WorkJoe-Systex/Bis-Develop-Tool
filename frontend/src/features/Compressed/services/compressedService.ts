@@ -1,6 +1,6 @@
 import { Files, UserInfo } from '../types';
 
-const API_URL = 'http://localhost:3000/api/compress';
+const COMPRESS_API_URL = 'http://localhost:3000/api/compress';
 const FILE_API_URL = 'http://localhost:3000/api/files';
 const USER_API_URL = 'http://localhost:3000/api/user';
 
@@ -22,14 +22,14 @@ export const searchFiles = async (url: string): Promise<Files> => {
   return data; // 返回完整的 Files 物件
 };
 
-export const compressToZip = async (Files: string[], csvName: string): Promise<Files> => {
+export const compressToZip = async (Files: string[], CompressedDir: string, ZipType: string): Promise<Files> => {
   // API 路徑
-  const response = await fetch(API_URL, {
+  const response = await fetch(COMPRESS_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ files: Files, csvName: csvName }), // 將 path 作為 JSON 傳遞
+    body: JSON.stringify({ files: Files, compressedDir: CompressedDir, zipType: ZipType }), // 將 path 作為 JSON 傳遞
   });
 
   const data = await response.json();
@@ -61,7 +61,7 @@ export const queryUSERINFO = async (url: string): Promise<UserInfo> => {
   return data;
 }
 
-export const updatePathType = async (compressedDir: string) => {
+export const updatePathType = async (compressedDir: string, zipType: string) => {
   // `fetch`發送HTTP請求至後端，並接收response
   // `await`關鍵字，表示等待 fetch 操作完成，然後將結果賦值給 response 變數
   const response = await fetch(USER_API_URL + `/admin`, {
@@ -69,7 +69,7 @@ export const updatePathType = async (compressedDir: string) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ compressedDir }),
+    body: JSON.stringify({ compressedDir, zipType }),
   });
 
   if (!response.ok) {

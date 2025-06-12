@@ -104,8 +104,8 @@ function deepMerge(target: any, source: any): any {
 }
 
 export const parseHostMsgXML = async (str: any, parserOptions: object, extend: any, dynamic: any, type: string, onlyTota: string) => {
-  const jbranchDIR = (await pathModel.getPath('local', 'jbranch'))[0].path; // 取Jbranch路徑
-  const hostMsgPath = (await pathModel.getPath('local', 'hostMsg'))[0].path; // 取hostMsg路徑
+  const jbranchDIR = (await pathModel.getPath('SVN', 'jbranch'))[0].path; // 取Jbranch路徑
+  const hostMsgPath = (await pathModel.getPath('SVN', 'hostMsg'))[0].path; // 取hostMsg路徑
   const parser = new XMLParser(parserOptions);
   
   let txcode = '';
@@ -171,8 +171,8 @@ export const parseHostMsgXML = async (str: any, parserOptions: object, extend: a
 };
 
 export const parseTitaData = async (TitaStr: any, titaBody: any, parserOptions: object) => {
-  const jbranchDIR = (await pathModel.getPath('local', 'jbranch'))[0].path; // 取Jbranch路徑
-  const hostMsgPath = (await pathModel.getPath('local', 'hostMsg'))[0].path; // 取hostMsg路徑
+  const jbranchDIR = (await pathModel.getPath('SVN', 'jbranch'))[0].path; // 取Jbranch路徑
+  const hostMsgPath = (await pathModel.getPath('SVN', 'hostMsg'))[0].path; // 取hostMsg路徑
   const parser = new XMLParser(parserOptions);
 
   // tita header 路徑
@@ -244,8 +244,8 @@ export const parseTitaData = async (TitaStr: any, titaBody: any, parserOptions: 
 };
 
 export const parseTotaData = async (TotaStr: any, totaBody: any, totaExtend: any, parserOptions: object) => {
-  const jbranchDIR = (await pathModel.getPath('local', 'jbranch'))[0].path; // 取Jbranch路徑
-  const hostMsgPath = (await pathModel.getPath('local', 'hostMsg'))[0].path; // 取hostMsg路徑
+  const jbranchDIR = (await pathModel.getPath('SVN', 'jbranch'))[0].path; // 取Jbranch路徑
+  const hostMsgPath = (await pathModel.getPath('SVN', 'hostMsg'))[0].path; // 取hostMsg路徑
   const parser = new XMLParser(parserOptions);
 
   // tota header 路徑

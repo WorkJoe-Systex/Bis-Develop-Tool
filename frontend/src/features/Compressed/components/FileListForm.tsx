@@ -3,9 +3,10 @@ import { searchFiles, compressToZip, updatePathType } from '../services/compress
 
 interface FileListFormProps {
   pathType: 'SVN' | 'DEV';
+  zipType: 'DEV' | 'NOFILE';
 }
 
-const FileListForm: React.FC<FileListFormProps> = ({ pathType }) => {
+const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
   const [files, setFiles] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [csvName, setCsvName] = useState<string>(''); // 管理 CSV_NAME
@@ -53,13 +54,13 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType }) => {
 
     try {
       if (selectedFiles.length !== 0) {
-        const data = await compressToZip(selectedFiles, csvName);
+        const data = await compressToZip(selectedFiles, pathType, zipType);
         if (data.delList) {
           setDelList(data.delList);
           console.log(`data.delList:${data.delList}`)
         }
         console.log('Compression successful:', data.zipName);
-        updatePathType(pathType);
+        updatePathType(pathType, zipType);
       } else {
         setCsvName('');
         alert('Choose the file first');
