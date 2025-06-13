@@ -16,35 +16,51 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
 
   // 在畫面載入時執行資料查詢
   useEffect(() => {
-    const fetchFiles = async () => {
-      setError(''); // 清空先前的錯誤訊息
-      setIsLoading(true);
-      try {
-        const data = await searchFiles('?serverType=local&name=compress');
-        setFiles(data.files); // 使用返回的檔案列表
-      } catch (err: any) {
-        setError('Failed to load files');
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchFiles();
   }, []); // 當組件載入時調用
 
+  /**
+   * 查詢.csv
+   */
+  const fetchFiles = async () => {
+    setError(''); // 清空先前的錯誤訊息
+    setIsLoading(true);
+    try {
+      const data = await searchFiles('?serverType=local&name=compress');
+      setFiles(data.files); // 使用返回的檔案列表
+    } catch (err: any) {
+      setError('Failed to load files');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   // 處理檔案選擇
   const handleFileSelect = (file: string) => {
-    setSelectedFiles((prevSelected) => {
-      const updatedSelection = prevSelected.includes(file)
-        ? prevSelected.filter((f) => f !== file) // 取消選擇
-        : [...prevSelected, file]; // 選擇檔案
+    // 多選
+    // setSelectedFiles((prevSelected) => {
+    //   const updatedSelection = prevSelected.includes(file)
+    //     ? prevSelected.filter((f) => f !== file) // 取消選擇
+    //     : [...prevSelected, file]; // 選擇檔案
 
-      // 如果是第一次勾選檔案，將該檔案名填入 CSV_NAME
-      if (!prevSelected.includes(file) && updatedSelection.length === 1) {
-        setCsvName(file);
-      }
-      return updatedSelection;
-    });
+    //   // 如果是第一次勾選檔案，將該檔案名填入 CSV_NAME
+    //   if (!prevSelected.includes(file) && updatedSelection.length === 1) {
+    //     setCsvName(file);
+    //   }
+    //   return updatedSelection;
+    // });
+
+    // 單選
+    if (selectedFiles.includes(file)) {
+      // 如果已選中 → 取消勾選
+      setSelectedFiles([]);
+      setCsvName('');
+    } else {
+      // 強制單選
+      setSelectedFiles([file]);
+      setCsvName(file);
+    }
   };
 
   // 處理下一步操作
@@ -75,6 +91,9 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
     <div>
       <h3>File List</h3>
       <div>
+        <button onClick={fetchFiles} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'refresh'}
+        </button>
         {isLoading && <p>Loading...</p>}
         {error && <p>Error: {error}</p>}
         <ul>
