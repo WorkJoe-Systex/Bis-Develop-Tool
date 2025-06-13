@@ -55,6 +55,7 @@ temp/
 # SQLite
 *.sqlite
 *.sqlite3
+*.sql
 
 # 打包檔案
 *.bundle.js
