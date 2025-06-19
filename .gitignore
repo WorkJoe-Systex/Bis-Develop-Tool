@@ -61,6 +61,3 @@ temp/
 *.bundle.js
 *.bundle.js.map
 *.chunk.js
-
-# 靜態資源輸出
-public/
