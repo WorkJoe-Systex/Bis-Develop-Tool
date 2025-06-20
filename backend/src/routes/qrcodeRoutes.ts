@@ -3,6 +3,6 @@ import { genQRCodes } from '../controllers/qrcodeController';
 
 const router = express.Router();
 
-router.get('/genQRcode', genQRCodes);
+router.post('/genQRcode', genQRCodes);
 
 export default router;

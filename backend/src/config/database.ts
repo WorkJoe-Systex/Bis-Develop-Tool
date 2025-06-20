@@ -39,7 +39,7 @@ export async function getDatabase() {
     )
   `);
   await db.exec(`
-    CREATE TABLE TB_QRCODE (
+    CREATE TABLE IF NOT EXISTS TB_QRCODE (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       description TEXT NOT NULL,
       original_text TEXT NOT NULL,
