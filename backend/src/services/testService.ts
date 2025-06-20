@@ -19,9 +19,9 @@ export const createUser = async (name: string) => {
   console.log(`name:${name}`);
   console.log(`existingUser:${existingUser}`);
   console.log(`existingUser.length:${existingUser.length}`);
-  if (existingUser.includes(name)) {
-    throw new Error('User already exists.');
-  }
+  // if (existingUser.includes(name)) {
+  //   throw new Error('User already exists.');
+  // }
   
   // 新增使用者
   return userModel.addUser(formattedName);

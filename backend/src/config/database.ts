@@ -1,17 +1,6 @@
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-
-// 打開SQLite連線(測試)
-// const dbPromise = open({
-//   filename: './data/users.db',
-//   driver: sqlite3.Database,
-// });
-
+import Database from 'better-sqlite3';
 // 打開SQLite連線
-const dataDB = open({
-  filename: './data/data.db',
-  driver: sqlite3.Database,
-});
+const dataDB = new Database('./data/data.db');
 
 /**
  * 1.提供一個統一的接口讓其他模組獲取資料庫實例。
@@ -25,7 +14,7 @@ export async function getDatabase() {
 
 (async () => {
   const db = await getDatabase();
-  await db.run(`
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS TB_PATH (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       serverType TEXT,
@@ -33,7 +22,7 @@ export async function getDatabase() {
       path TEXT
     )
   `);
-  await db.run(`
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS TB_FILETYPE (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
@@ -41,13 +30,22 @@ export async function getDatabase() {
       fileType TEXT
     )
   `);
-  await db.run(`
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS TB_USERINFO (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
       compressedDir TEXT,
       zipType TEXT
     )
+  `);
+  await db.exec(`
+    CREATE TABLE TB_QRCODE (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      description TEXT NOT NULL,
+      original_text TEXT NOT NULL,
+      qrcodes TEXT NOT NULL, -- JSON 字串
+      createTime DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
   console.log('Database initialized');
 })();

@@ -5,22 +5,22 @@ export interface User {
   name: string;
 }
 
-export async function getAllUsers(): Promise<User[]> {
-  const database = await db;
-  return database.all('SELECT * FROM users');
+export function getAllUsers(): User[] {
+  const sql = db.prepare('SELECT * FROM users');
+  return sql.all() as User[];
 }
 
-export const findUserByName = async (name: string) => {
-  const database = await db;
-  return database.all('SELECT * FROM users WHERE name = ?', [name]);
+export function findUserByName(name: string): User[] {
+  const sql = db.prepare('SELECT * FROM users WHERE name = ?');
+  return sql.all(name) as User[];
 };
 
-export async function addUser(name: string): Promise<void> {
-  const database = await db;
-  await database.run('INSERT INTO users (name) VALUES (?)', [name]);
+export function addUser(name: string): void {
+  const sql = db.prepare('INSERT INTO users (name) VALUES (?)');
+  sql.run(name);
 }
 
-export async function deleteUser(id: number): Promise<void> {
-  const database = await db;
-  await database.run('DELETE FROM users WHERE id = ?', [id]);
+export function deleteUser(id: number): void {
+  const sql = db.prepare('DELETE FROM users WHERE id = ?');
+  sql.run(id);
 }

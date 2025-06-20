@@ -1,6 +1,7 @@
 import db from '../config/database';
+import { FileType } from '../types';
 
-export async function getFileType(): Promise<{ name: string; type: string; fileType: string }[]> {
-  const database = await db;
-  return database.all('SELECT name, type, fileType FROM TB_FILETYPE');
+export function getFileType(): FileType[] {
+  const sql = db.prepare('SELECT name, type, fileType FROM TB_FILETYPE');
+  return sql.all() as FileType[];
 }
