@@ -13,6 +13,10 @@ const Home: React.FC = () => {
   const goToCompressed = () => {
     navigate('/compressed'); // 跳轉至 /compressed
   };
+  
+  const goToQrcode = () => {
+    navigate('/qrcode'); // 跳轉至 /qrcode
+  };
 
   const goToTest = () => {
     navigate('/test'); // 跳轉至 /test
@@ -28,6 +32,9 @@ const Home: React.FC = () => {
         </li>
         <li>
           Compressed <button onClick={goToCompressed}>Go</button>
+        </li>
+        <li>
+          QRcode <button onClick={goToQrcode}>Go</button>
         </li>
         <li>
           Test <button onClick={goToTest}>Go</button>

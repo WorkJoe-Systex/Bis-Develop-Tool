@@ -41,6 +41,8 @@ export async function getDatabase() {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS TB_QRCODE (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      txncode TEXT NOT NULL,
+      hostmsg TEXT,
       description TEXT NOT NULL,
       original_text TEXT NOT NULL,
       qrcodes TEXT NOT NULL, -- JSON 字串

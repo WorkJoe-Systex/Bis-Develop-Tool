@@ -1,4 +1,5 @@
 import CompressedPage from '../features/Compressed/pages/CompressedPage';
+import QrcodePage from '../features/Qrcode/pages/QrcodePage';
 import HostMsgPage from '../features/HostMsg/pages/HostMsgPage';
 import TestPage from '../features/Test/pages/TestPage';
 import Home from '../pages/Home';
@@ -16,6 +17,7 @@ const routes: Route[] = [
   { path: '/', element: <Home /> },
   { path: '/hostmessage', element: <HostMsgPage /> },
   { path: '/compressed', element: <CompressedPage /> },
+  { path: '/qrcode', element: <QrcodePage /> },
   { path: '/test', element: <TestPage /> },
 ];
 

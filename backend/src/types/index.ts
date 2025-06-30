@@ -21,3 +21,11 @@ export interface FileType {
   type: string;
   fileType: string;
 }
+
+export interface QRCodeRecord {
+  txncode: string;
+  hostmsg: string;
+  description: string;
+  original_text: string;
+  qrcodes: string[];
+}
