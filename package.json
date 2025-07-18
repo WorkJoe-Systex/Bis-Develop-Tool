@@ -1,0 +1,87 @@
+{
+  "name": "bis-develop-tool",
+  "version": "1.0.0",
+  "description": "A desktop tool for file compression and XML parsing",
+  "author": "Joe",
+  "main": "electron/main.js",
+  "scripts": {
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build:electron": "cross-env DEBUG=electron-builder electron-builder",
+    "dist": "npm run build:frontend && npm run build:backend && npm run build:electron",
+    "electron": "electron .",
+    "clean": "rimraf release dist frontend/build backend/dist"
+  },
+  "build": {
+    "appId": "com.example.bisdevtool",
+    "productName": "BisDevelopTool",
+    "executableName": "BisDevelopTool",
+    "asar": true,
+    "directories": {
+      "buildResources": "assets",
+      "output": "release"
+    },
+    "files": [
+      {
+        "from": "frontend/build",
+        "to": "build"
+      },
+      "backend/dist/**/*",
+      "electron/main.js",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": true,
+      "runAfterFinish": false
+    },
+    "extraResources": [
+      {
+        "from": "backend/node-binary/node.exe",
+        "to": "backend/node.exe"
+      },
+      {
+        "from": "backend/node-binary/run.bat",
+        "to": "backend/run.bat"
+      },
+      {
+        "from": "backend/node-binary/run.sh",
+        "to": "backend/run.sh"
+      },
+      {
+        "from": "backend/vendor_modules",
+        "to": "backend/vendor_modules"
+      },
+      {
+        "from": "backend/data",
+        "to": "backend/data"
+      }
+    ],
+    "asarUnpack": [
+      "frontend/build/**/*",
+      "backend/dist/**/*",
+      "backend/node.exe",
+      "backend/run.bat",
+      "backend/run.sh",
+      "backend/vendor_modules/**/*",
+      "backend/data/data.db"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^26.2.1",
+    "electron-builder": "^26.0.12"
+  }
+}
