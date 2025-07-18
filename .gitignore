@@ -60,3 +60,10 @@ temp/
 *.bundle.js
 *.bundle.js.map
 *.chunk.js
+
+# Electron打包檔案
+release/
+backend/vendor_modules
+backend/dist
+frontend/build
+build-log.txt
