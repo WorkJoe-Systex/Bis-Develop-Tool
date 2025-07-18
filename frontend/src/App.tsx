@@ -1,10 +1,24 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter,
+  HashRouter,
+  Route,
+  Routes } from 'react-router-dom';
 import routes from './routes/routes';
 
-// function App() {
-//   return <Home />;
-// }
+declare global {
+  interface Window {
+    process?: {
+      type?: string;
+    };
+  }
+}
+
+// 判斷是否為 Electron 環境
+const isElectron = Boolean(
+  window && window.process && window.process.type
+);
+
+const Router = isElectron ? HashRouter : BrowserRouter;
 
 const App: React.FC = () => {
   // const isAuthenticated = false; // 假設的驗證邏輯
