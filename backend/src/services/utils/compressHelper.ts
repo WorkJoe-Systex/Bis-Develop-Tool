@@ -31,7 +31,7 @@ const genDataPath = async (compressedDir: string, fileType: string, source: stri
     const FILETYPE_DIR = await getSourcePath(compressedDir, fileType); // 取檔案類型路徑
 
     if (fileType === 'java' || fileType === 'batch') {
-      const match = source.match(/(\\src\\.*)/); // 正則 for java source path
+      const match = source.match(/(\/src\/.*)/); // 正則 for java source path
       const slicePath = match ? match[1] : null;
       if (slicePath) {
         dataPath = path.join(DEV_DIR, FILETYPE_DIR, slicePath);
