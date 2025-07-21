@@ -10,8 +10,19 @@ cd .\frontend
 npm install
 
 cd .\backend
+npm install
+
+## 前端啟動
+npm run
+
+## 後端啟動
 npm run dev
 
+## Electron Log location
+C:\Users\2200403\AppData\Local\Temp\bis-electron-main.log
+
+## Electron install location
+C:\Users\2200403\AppData\Local\Programs\bis-develop-tool
 
 ## VScode 後端Debug設定（launch.json）：
 {
