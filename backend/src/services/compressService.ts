@@ -18,7 +18,7 @@ export const compressFilesService = async (files: string[], compressedDir: strin
   /**
    * CSV 目標目錄
    */
-  const TARGET_DIR = (await pathModel.getPath('local', 'compress'))[0].path; // 取CSV目標路徑
+  const TARGET_DIR = (await pathModel.getPath('local', 'compress'))[0].path + '\\'; // 取CSV目標路徑
 
   /**
    * 壓縮檔案的輸出目錄
