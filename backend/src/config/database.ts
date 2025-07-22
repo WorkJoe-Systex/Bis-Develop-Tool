@@ -1,71 +1,95 @@
-import Database from 'better-sqlite3';
-// 打開SQLite連線
-const dataDB = new Database('./data/data.db');
+import Database, { Database as DatabaseType } from 'better-sqlite3';
+import path from 'path';
+import fs from 'fs';
 
-/**
- * 1.提供一個統一的接口讓其他模組獲取資料庫實例。
- * 2.每次呼叫時，都會等待 dbPromise 被解決，並返回資料庫物件（Database）。
- * 3.確保只有一個資料庫連線，避免每個模組都自行初始化資料庫。
- */
-export async function getDatabase() {
-  const db = await dataDB;
-  return db;
+// 判斷是否為 production 模式
+const isProd = process.env.NODE_ENV === 'production';
+
+// 🔧 取得資源路徑
+const resourcesPath = isProd
+  ? (process as any).resourcesPath // Electron production 模式
+  : path.resolve(__dirname, '..', '..');
+
+// 🔗 組出資料庫完整路徑
+const dbPath = path.join(resourcesPath, 'data', 'data.db');
+
+// ✅ 確保資料夾存在（開發用）
+if (!isProd) {
+  const dataDir = path.dirname(dbPath);
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
 }
 
-(async () => {
-  const db = await getDatabase();
-  await db.exec(`
+// ✅ 避免 production 模式下誤建空 DB
+if (isProd && !fs.existsSync(dbPath)) {
+  throw new Error(`❌ 找不到資料庫檔案：${dbPath}`);
+}
+
+// 🧠 重試連線機制（支援硬體 I/O 較慢的環境）
+function connectWithRetry(file: string, retries = 3, delay = 500): DatabaseType {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const db = new Database(file);
+      console.log(`✅ 成功連接 SQLite（第 ${i + 1} 次嘗試）：${file}`);
+      return db;
+    } catch (err) {
+      console.error(`⚠️ SQLite 連線失敗（第 ${i + 1} 次）：`, err);
+      if (i < retries - 1) {
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, delay);
+      }
+    }
+  }
+  throw new Error('❌ 無法連接 SQLite，已達最大重試次數');
+}
+
+// 🔌 建立連線
+const db = connectWithRetry(dbPath);
+
+// ✅ 同步初始化資料表
+try {
+  db.exec(`
     CREATE TABLE IF NOT EXISTS TB_PATH (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       serverType TEXT,
       name TEXT,
       path TEXT
-    )
-  `);
-  await db.exec(`
+    );
+
     CREATE TABLE IF NOT EXISTS TB_FILETYPE (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
       type TEXT,
       fileType TEXT
-    )
-  `);
-  await db.exec(`
+    );
+
     CREATE TABLE IF NOT EXISTS TB_USERINFO (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
       compressedDir TEXT,
       zipType TEXT
-    )
-  `);
-  await db.exec(`
+    );
+
     CREATE TABLE IF NOT EXISTS TB_QRCODE (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       txncode TEXT NOT NULL,
       hostmsg TEXT,
       description TEXT NOT NULL,
       original_text TEXT NOT NULL,
-      qrcodes TEXT NOT NULL, -- JSON 字串
+      qrcodes TEXT NOT NULL,
       createTime DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
-  console.log('Database initialized');
-})();
 
-// 初始化只需調用一次
-// 1.在應用啟動時初始化資料庫。
-// 2.使用 SQL 語句檢查並建立 users 資料表（若尚未存在）。
-// 3.初始化邏輯只執行一次，因為是立即執行的自執行函數（(async () => { ... })()）。
-// (async () => {
-//   const db = await getDatabase();
-//   await db.run(`
-//     CREATE TABLE IF NOT EXISTS users (
-//       id INTEGER PRIMARY KEY AUTOINCREMENT,
-//       name TEXT
-//     )
-//   `);
-//   console.log('Database initialized');
-// })();
-// 這是一個 立即執行的匿名函數（IIFE, Immediately Invoked Function Expression）。它會在定義後馬上執行，因此無需手動調用。
+  console.log('✅ 資料表初始化完成');
+} catch (err) {
+  console.error('❌ 資料表初始化失敗：', err);
+  process.exit(1); // 初始化失敗立即退出
+}
 
-export default dataDB;
+// 🚨 全域錯誤監聽（避免沒看到錯誤）
+process.on('uncaughtException', (err) => {
+  console.error('🚨 未捕捉例外錯誤：', err);
+});
+
+export default db;
