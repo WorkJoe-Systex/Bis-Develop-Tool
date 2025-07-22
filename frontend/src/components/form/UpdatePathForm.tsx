@@ -71,7 +71,8 @@ const UpdatePathForm: React.FC = () => {
     // 構建 PUT 請求
     try {
       const result = await updateTargetPath('local', 'compress', targetPath);
-      console.log(`TragetPath updated successfully:${result}`);
+      console.log(`TragetPath updated successfully:${result.message}`);
+      alert(`TragetPath updated successfully:${result.message}`);
     } catch (error) {
       alert('Failed to update tragetPath.');
       console.error('Form Error updating tragetPath:', error);
@@ -83,7 +84,8 @@ const UpdatePathForm: React.FC = () => {
     // 構建 PUT 請求
     try {
       const result = await updateTargetPath('SVN', 'jbranch', jbranchPath);
-      console.log(`JBranchPath updated successfully:${result}`);
+      console.log(`JBranchPath updated successfully:${result.message}`);
+      alert(`JBranchPath updated successfully:${result.message}`);
     } catch (error) {
       alert('Failed to update jbranchPath.');
       console.error('Form Error updating jbranchPath:', error);
@@ -95,7 +97,8 @@ const UpdatePathForm: React.FC = () => {
     // 構建 PUT 請求
     try {
       const result = await updateTargetPath('DEV', 'dev-dir', devPath);
-      console.log(`DEVPath updated successfully:${result}`);
+      console.log(`DEVPath updated successfully:${result.message}`);
+      alert(`DEVPath updated successfully:${result.message}`);
     } catch (error) {
       alert('Failed to update devPath.');
       console.error('Form Error updating devPath:', error);
