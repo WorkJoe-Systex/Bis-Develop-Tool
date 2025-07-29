@@ -1,6 +1,7 @@
 import CompressedPage from '../features/Compressed/pages/CompressedPage';
 import QrcodePage from '../features/Qrcode/pages/QrcodePage';
 import HostMsgPage from '../features/HostMsg/pages/HostMsgPage';
+import FakeHostMsgPage from '../features/FakeHostMsg/pages/FileSyncView';
 import TestPage from '../features/Test/pages/TestPage';
 import Home from '../pages/Home';
 import React from 'react';
@@ -16,6 +17,7 @@ interface Route {
 const routes: Route[] = [
   { path: '/', element: <Home /> },
   { path: '/hostmessage', element: <HostMsgPage /> },
+  { path: '/fakehostmessage', element: <FakeHostMsgPage /> },
   { path: '/compressed', element: <CompressedPage /> },
   { path: '/qrcode', element: <QrcodePage /> },
   { path: '/test', element: <TestPage /> },

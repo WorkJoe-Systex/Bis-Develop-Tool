@@ -10,6 +10,10 @@ const Home: React.FC = () => {
     navigate('/hostmessage'); // 跳轉至 /hostmessage
   };
 
+  const goToFakeHostMsg = () => {
+    navigate('/fakehostmessage'); // 跳轉至 /fakehostmessage
+  };
+
   const goToCompressed = () => {
     navigate('/compressed'); // 跳轉至 /compressed
   };
@@ -29,6 +33,9 @@ const Home: React.FC = () => {
       <ul>
         <li>
           Host Message Parser/Replace <button onClick={goToHostMsg}>Go</button>
+        </li>
+        <li>
+          Fake Host Message <button onClick={goToFakeHostMsg}>Go</button>
         </li>
         <li>
           Compressed <button onClick={goToCompressed}>Go</button>

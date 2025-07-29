@@ -4,9 +4,9 @@ import * as pathService from '../services/pathService';
 // 功能：取local存放.csv的路徑返回給前端
 export const getPath = async (req: Request, res: Response) => {
   try {
-    const { serverType, name } = req.params; // 從路徑參數取得 serverType 和 name
+    const { serverType, name, fileType } = req.params; // 從路徑參數取得 serverType 和 name
     // 以`await`非同步方式從資料庫獲取所有用戶資料
-    const path = await pathService.getPath(serverType, name);
+    const path = await pathService.getPath(serverType, name, fileType);
 
     // 將資料轉成 JSON 格式返回
     res.json(path);

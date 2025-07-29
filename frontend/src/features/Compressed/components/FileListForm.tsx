@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { searchFiles, compressToZip, updatePathType } from '../services/compressedService';
+import { compressToZip, updatePathType } from '../services/compressedService';
+import { searchFiles } from '../../../services/fileService';
 
 interface FileListFormProps {
   pathType: 'SVN' | 'DEV';
@@ -26,7 +27,7 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
     setError(''); // 清空先前的錯誤訊息
     setIsLoading(true);
     try {
-      const data = await searchFiles('?serverType=local&name=compress');
+      const data = await searchFiles('?serverType=local&name=compress&fileType=.csv');
       setFiles(data.files); // 使用返回的檔案列表
     } catch (err: any) {
       setError('Failed to load files');

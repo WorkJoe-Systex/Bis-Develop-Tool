@@ -36,9 +36,9 @@ const UpdatePathForm: React.FC = () => {
       try {
         // 假設從後端取得的初始數據格式為：
         // [{ name: 'compress', path: '/some/path1' }, { name: 'jbranch', path: '/some/path2' }]
-        const targetData = await fetchPath('local', 'compress');
-        const jbranchData = await fetchPath('SVN', 'jbranch');
-        const devData = await fetchPath('DEV', 'dev-dir');
+        const targetData = await fetchPath('local', 'compress', 'path');
+        const jbranchData = await fetchPath('SVN', 'jbranch', 'path');
+        const devData = await fetchPath('DEV', 'dev-dir', 'path');
 
         console.log(targetData);
         console.log(jbranchData);
