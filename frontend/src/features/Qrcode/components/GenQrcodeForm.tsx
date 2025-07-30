@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { genQRcode } from '../services/qrcodeService';
 import QRCodeGallery from './QRCodeGallery';
+import Input from '../../../components/ui/Input';
+import Button from '../../../components/ui/Button';
 
 const GenQrcodeForm: React.FC = () => {
   const [qrcodeImages, setQrcodeImages] = useState<string[]>([]); // 加上 state
@@ -38,65 +40,58 @@ const GenQrcodeForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={sendGenerateQrcode}>
-      <h3>新增QRcode</h3>
+    <form onSubmit={sendGenerateQrcode} className="bg-white shadow-md rounded-lg p-6 space-y-4">
+      <h3 className="text-lg font-semibold mb-2">新增 QR code</h3>
+
       <div>
-       <label>轉換字串:</label>
-       <input
+       <label className="block font-medium mb-1">轉換字串:</label>
+       <Input
           type="text"
-          id="longStr"
-          name="longStr"
-          style={{ width: '700px' }}
           value={longStr}
           onChange={(e) => setLongStr(e.target.value)}
           placeholder="Enter text to genrate QRcode"
+          width="w-full"
        />
       </div>
       <div>
-        <label>交易代號:</label>
-        <input
+        <label className="block font-medium mb-1">交易代號:</label>
+        <Input
           type="text"
-          id="txncode"
-          name="txncode"
-          style={{ width: '700px' }}
           value={txncode}
           onChange={(e) => setTxncode(e.target.value)}
           placeholder="Enter txncode"
+          width="w-full"
         />
       </div>
       <div>
-        <label>電文檔名稱 (HostMsg):</label>
-        <input
+        <label className="block font-medium mb-1">電文檔名稱 (HostMsg):</label>
+        <Input
           type="text"
-          id="hostmsg"
-          name="hostmsg"
-          style={{ width: '700px' }}
           value={hostmsg}
           onChange={(e) => setHostmsg(e.target.value)}
           placeholder="Enter hostmsg"
+          width="w-full"
         />
       </div>
       <div>
-        <label>描述:</label>
-        <input
+        <label className="block font-medium mb-1">描述:</label>
+        <Input
           type="text"
-          id="description"
-          name="description"
-          style={{ width: '700px' }}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Enter description"
+          width="w-full"
         />
       </div>
       {/* 送出按鈕 */}
       <div>
-        <button type="submit">XMT</button>
+        <Button type="submit" variant="primary" className="w-full">送出</Button>
       </div>
 
       {/* 新增後顯示 QR Code 區塊 */}
       {qrcodeImages.length > 0 && (
-        <div>
-          <h3>產生結果</h3>
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-2">產生結果</h3>
           <QRCodeGallery qrcodes={qrcodeImages} />
         </div>
       )}

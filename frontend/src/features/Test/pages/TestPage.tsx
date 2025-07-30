@@ -4,6 +4,7 @@ import { fetchUsers, addUser, deleteUser } from '../services/testService';
 import useNavigateToHome from '../../../hooks/useNavigateToHome';
 import TestForm from '../components/TestForm';
 import type { User } from '../types';
+import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const TestPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -62,7 +63,7 @@ const TestPage: React.FC = () => {
           <p>No users found.</p>
         )}
       </ul>
-      <p><button onClick={goToHomePage}>Back</button></p>
+      <BackToHomeButton />
     </div>
   );
 };

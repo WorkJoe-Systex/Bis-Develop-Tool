@@ -3,6 +3,7 @@ import { useHostMsgManager } from '../hooks/useHostMsgManager';
 import FileList from '../components/FileList';
 import HostMsgList from '../components/HostMsgList';
 import useNavigateToHome from '../../../hooks/useNavigateToHome';
+import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const FileSyncView: React.FC = () => {
   const { goToHomePage } = useNavigateToHome();
@@ -23,7 +24,7 @@ const FileSyncView: React.FC = () => {
         <button>{'<'}</button>
       </div>
       <HostMsgList type="db" data={dbHostMsg} onMove={moveToLocal} />
-      <p><button onClick={goToHomePage}>Back</button></p>
+      <BackToHomeButton />
     </div>
   );
 };

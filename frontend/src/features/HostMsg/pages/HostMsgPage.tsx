@@ -3,6 +3,7 @@ import HostMsgTable from '../components/HostMsgTable';
 import ParserPage from './ParserPage';
 import useNavigateToHome from '../../../hooks/useNavigateToHome';
 import { parseTiTotaData } from '../services/parserService';
+import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const HostMsgPage: React.FC = () => {
   const { goToHomePage } = useNavigateToHome();
@@ -18,11 +19,7 @@ const HostMsgPage: React.FC = () => {
       <div>
 
       </div>
-      <div>
-        <p>
-          <button onClick={goToHomePage}>Back</button>
-        </p>
-      </div>
+      <BackToHomeButton />
     </div>
   );
 };

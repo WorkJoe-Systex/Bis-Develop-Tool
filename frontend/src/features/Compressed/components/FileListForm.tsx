@@ -89,61 +89,64 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
   };
 
   return (
-    <div>
-      <h3>File List</h3>
-      <div>
-        <button onClick={fetchFiles} disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'refresh'}
+    <div className="bg-white p-4 rounded shadow space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-gray-700">📂 CSV 檔案列表</h2>
+        <button 
+          onClick={fetchFiles}
+          disabled={isLoading}
+          className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50"
+        >
+          {isLoading ? 'Loading...' : '重新整理'}
         </button>
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Error: {error}</p>}
-        <ul>
-          {files.map((file) => (
-            <li key={file}>
-              <input
-                id={file}
-                type="checkbox"
-                checked={selectedFiles.includes(file)}
-                onChange={() => handleFileSelect(file)}
-              />
-              <label htmlFor={file}>{file}</label>
-            </li>
-          ))}
-        </ul>
       </div>
-      <div>
-        <label htmlFor="CSV_NAME">CSV File Name</label>
+
+      {error && <p className="text-red-500">{error}</p>}
+
+      <ul className="space-y-1">
+        {files.map((file) => (
+          <li key={file} className="flex items-center space-x-2">
+            <input
+              id={file}
+              type="checkbox"
+              checked={selectedFiles.includes(file)}
+              onChange={() => handleFileSelect(file)}
+              className="form-checkbox"
+            />
+            <label htmlFor={file} className="text-gray-700">{file}</label>
+          </li>
+        ))}
+      </ul>
+
+      <div className="space-y-2">
+        <label htmlFor="CSV_NAME" className="block font-medium text-gray-700">CSV File Name</label>
         <input
           id="CSV_NAME"
-          name="CSV_NAME"
           type="text"
-          style={{ width: '200px' }}
+          className="w-full px-3 py-2 border border-gray-300 rounded"
           value={csvName}
           onChange={(e) => setCsvName(e.target.value)} // 實時更新 CSV_NAME 的值
         />
         <button 
-          id="BTN_COMPRESS"
           onClick={handleNextStep}
           disabled={!csvName} // 當 CSV_NAME 為空時禁用按鈕
+          className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
         >
-          Next Step
+          下一步
         </button>
       </div>
-      <div>
-        {/* 只有在 delList 有資料時才顯示 */}
-        {delList.length > 0 && (
-          <div>
-            <h2>Deleted Files:</h2>
-            <ul>
-              {delList.map((del, index) => (
-                <li key={index}>
-                  <label>{del}</label>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+
+      {/* 只有在 delList 有資料時才顯示 */}
+      {delList.length > 0 && (
+        <div>
+          <h3 className="text-md font-semibold mt-4 text-red-600">被刪除的檔案</h3>
+          <ul className="list-disc pl-5 text-sm text-gray-700">
+            {delList.map((del, index) => (
+              <li key={index}>{del}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
