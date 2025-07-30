@@ -1,4 +1,4 @@
-import { Files, UserInfo } from '../types';
+import type { Files, UserInfo } from '../types.ts';
 
 const COMPRESS_API_URL = 'http://localhost:3000/api/compress';
 const USER_API_URL = 'http://localhost:3000/api/user';

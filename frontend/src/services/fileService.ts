@@ -1,4 +1,4 @@
-import { Files } from '../types/types';
+import type { Files } from '../types/types.ts';
 
 const FILE_API_URL = 'http://localhost:3000/api/files';
 

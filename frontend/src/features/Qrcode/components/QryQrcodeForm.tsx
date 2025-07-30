@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { qryQRcode } from '../services/qrcodeService';
 import QRCodeGallery from './QRCodeGallery';
-import { QRCodeRecord } from '../types';
+import type { QRCodeRecord } from '../types';
 import { AnimatePresence, motion } from 'framer-motion';
 import '../css/QryList.css';
 import QRCodeRecordList from './QRcodeRecordList';

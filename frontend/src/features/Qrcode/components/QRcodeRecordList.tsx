@@ -1,5 +1,5 @@
 import React from 'react';
-import { QRCodeRecord } from '../types';
+import type { QRCodeRecord } from '../types';
 import { delQRcode } from '../services/qrcodeService';
 
 interface QRCodeRecordListProps {

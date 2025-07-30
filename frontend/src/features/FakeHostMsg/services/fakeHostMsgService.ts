@@ -1,4 +1,4 @@
-import { HostMsg } from '../types';
+import type { HostMsg } from '../types';
 
 const API_URL = 'http://localhost:3000/api/hostMsg';
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { searchFiles } from '../../../services/fileService';
 import { qryAllHostMsg, updateHostMsgStatus } from '../services/fakeHostMsgService';
-import { HostMsg } from '../types';
+import type { HostMsg } from '../types';
 
 export const useHostMsgManager = () => {
   const [files, setFiles] = useState<string[]>([]);

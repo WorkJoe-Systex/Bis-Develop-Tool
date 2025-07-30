@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchUsers, addUser, deleteUser } from '../services/testService';
 import useNavigateToHome from '../../../hooks/useNavigateToHome';
 import TestForm from '../components/TestForm';
-import { User } from '../types';
+import type { User } from '../types';
 
 const TestPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);

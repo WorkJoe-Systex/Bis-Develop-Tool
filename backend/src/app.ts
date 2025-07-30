@@ -9,7 +9,7 @@ const app = express();
 // 允許所有來源訪問 API
 // app.use(cors());
 // 嚴格限制來源訪問
-app.use(cors({ origin: 'http://localhost:3001' }));
+app.use(cors({ origin: 'http://localhost:5173' }));
  // 讓 Express 支援 JSON 請求體
 app.use(express.json());
 

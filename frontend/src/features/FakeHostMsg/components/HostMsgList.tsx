@@ -1,5 +1,5 @@
 import React from 'react';
-import { HostMsg } from '../types';
+import type { HostMsg } from '../types';
 
 interface HostMsgListProps {
   type: 'local' | 'db';
