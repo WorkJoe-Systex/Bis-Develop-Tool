@@ -1,7 +1,6 @@
 // useEffect 和 useState 是 React 的 Hook，分別用來管理副作用和狀態
 import React, { useEffect, useState } from 'react';
 import { fetchUsers, addUser, deleteUser } from '../services/testService';
-import useNavigateToHome from '../../../hooks/useNavigateToHome';
 import TestForm from '../components/TestForm';
 import type { User } from '../types';
 import BackToHomeButton from '../../../components/ui/BackToHomeButton';
@@ -45,7 +44,6 @@ const TestPage: React.FC = () => {
     deleteUser(id).then(() => fetchUsers().then(setUsers));
   };
 
-  const { goToHomePage } = useNavigateToHome();
 
   return (
     <div>

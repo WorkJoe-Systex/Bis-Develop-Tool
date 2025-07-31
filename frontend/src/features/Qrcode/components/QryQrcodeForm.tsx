@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { qryQRcode } from '../services/qrcodeService';
 import QRCodeGallery from './QRCodeGallery';
 import type { QRCodeRecord } from '../types';

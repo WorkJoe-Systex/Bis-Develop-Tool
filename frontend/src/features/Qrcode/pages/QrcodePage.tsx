@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import useNavigateToHome from '../../../hooks/useNavigateToHome';
 import GenQrcodeForm from '../components/GenQrcodeForm';
 import QryQrcodeForm from '../components/QryQrcodeForm';
 import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const QrcodePage: React.FC = () => {
-  const { goToHomePage } = useNavigateToHome();
   const [mode, setMode] = useState<'generate' | 'query'>('generate');
 
   return (

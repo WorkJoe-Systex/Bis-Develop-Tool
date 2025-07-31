@@ -41,126 +41,145 @@ const ParserPage: React.FC = () => {
     }
   };
 
-  // 在畫面載入時執行資料查詢
-  useEffect(() => {
-  }, []); // 當組件載入時調用
-
   return (
-    <form onSubmit={sendTiTotaParse}>
-      <div>
-       <label>Tita Str:</label>
-       <input
-          type="text"
-          id="TitaStr"
-          name="TitaStr"
-          style={{ width: '700px' }}
-          value={titaStr}
-          onChange={(e) => setTitaStr(e.target.value)}
-          placeholder="Enter Tita Str"
-       />
+    <form onSubmit={sendTiTotaParse} className="space-y-6">
+      <div className="space-y-4">
+        <div>
+          <label className="block font-medium">Tita Str</label>
+          <input
+              type="text"
+              id="TitaStr"
+              name="TitaStr"
+              className="w-full border rounded px-3 py-2"
+              value={titaStr}
+              onChange={(e) => setTitaStr(e.target.value)}
+              placeholder="Enter Tita Str"
+          />
+        </div>
+        <div>
+          <label className="block font-medium">Tota Str</label>
+          <input
+            type="text"
+            id="TotaStr"
+            name="TotaStr"
+            className="w-full border rounded px-3 py-2"
+            value={totaStr}
+            onChange={(e) => setTotaStr(e.target.value)}
+            placeholder="Enter Tota Str"
+          />
+        </div>
+        <div className="flex gap-4">
+          <div>
+            <label className="block font-medium">Tota Name:</label>
+            <input
+              type="text"
+              id="TotaName"
+              name="TotaName"
+              className="border rounded px-3 py-2"
+              value={totaName}
+              onChange={(e) => setTotaName(e.target.value)}
+              placeholder="Enter Tota Name"
+            />
+          </div>
+          {/* 保留 future 擴充用 */}
+        </div>
+        {/* 送出按鈕 */}
+        <div>
+          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            XMT
+          </button>
+        </div>
       </div>
-      <div>
-        <label>Tota Str:</label>
-        <input
-          type="text"
-          id="TotaStr"
-          name="TotaStr"
-          style={{ width: '700px' }}
-          value={totaStr}
-          onChange={(e) => setTotaStr(e.target.value)}
-          placeholder="Enter Tota Str"
-        />
-      </div>
-      <div>
-        <label>Tota Name:</label>
-        <input
-          type="text"
-          id="TotaName"
-          name="TotaName"
-          style={{ width: '200px' }}
-          value={totaName}
-          onChange={(e) => setTotaName(e.target.value)}
-          placeholder="Enter Tota Name"
-        />
-      </div>
+
       {/* 顯示 API 回傳結果 */}
-      <div>
+      <div className="space-y-8">
         {/* <h2>JSON Response</h2>
         <pre>{result ? JSON.stringify(result, null, 2) : 'No data yet'}</pre> */}
-        <h2>解析結果 - Tita</h2>
-        <table border={1} cellPadding={8} style={{ borderCollapse: 'collapse', marginTop: '10px' }}>
-          <thead>
-            <tr>
-              <th>欄位名稱</th>
-              <th>說明</th>
-              <th>型別</th>
-              <th>長度</th>
-              <th>值</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(result?.Tita?.res) && result.Tita.res.length > 0 ? (
-              result.Tita.res.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.name}</td>
-                  <td>{item.desc}</td>
-                  <td>{item.type}</td>
-                  <td>{item.maxLen}</td>
-                  <td>
-                    <input
-                      type="text"
-                      value={item.value}
-                    />
-                  </td>
+        <div>
+          <h3 className="text-md font-semibold mb-2">解析結果 - Tita</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-300">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-2 border">欄位名稱</th>
+                  <th className="px-4 py-2 border">說明</th>
+                  <th className="px-4 py-2 border">型別</th>
+                  <th className="px-4 py-2 border">長度</th>
+                  <th className="px-4 py-2 border">值</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={5}>無資料</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {result.Tita?.res?.length > 0 ? (
+                  result.Tita.res.map((item, index) => (
+                    <tr key={index} className="even:bg-gray-50">
+                      <td className="px-4 py-2 border">{item.name}</td>
+                      <td className="px-4 py-2 border">{item.desc}</td>
+                      <td className="px-4 py-2 border">{item.type}</td>
+                      <td className="px-4 py-2 border">{item.maxLen}</td>
+                      <td className="px-4 py-2 border">
+                        <input
+                          type="text"
+                          value={item.value}
+                          className="w-full border px-2 py-1"
+                          readOnly
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="text-center py-2 border">
+                      無資料
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-        <h2>解析結果 - Tota</h2>
-        <table border={1} cellPadding={8} style={{ borderCollapse: 'collapse', marginTop: '10px' }}>
-          <thead>
-            <tr>
-              <th>欄位名稱</th>
-              <th>說明</th>
-              <th>型別</th>
-              <th>長度</th>
-              <th>值</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(result?.Tota?.res) && result.Tota.res.length > 0 ? (
-              result.Tota.res.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.name}</td>
-                  <td>{item.desc}</td>
-                  <td>{item.type}</td>
-                  <td>{item.maxLen}</td>
-                  <td>
-                    <input
-                      type="text"
-                      value={item.value}
-                    />
-                  </td>
+        <div>
+          <h3 className="text-md font-semibold mb-2">解析結果 - Tota</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-300">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-2 border">欄位名稱</th>
+                  <th className="px-4 py-2 border">說明</th>
+                  <th className="px-4 py-2 border">型別</th>
+                  <th className="px-4 py-2 border">長度</th>
+                  <th className="px-4 py-2 border">值</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={5}>無資料</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* 送出按鈕 */}
-      <div>
-        <button type="submit">XMT</button>
+              </thead>
+              <tbody>
+                {result.Tota?.res?.length > 0 ? (
+                  result.Tota.res.map((item, index) => (
+                    <tr key={index} className="even:bg-gray-50">
+                      <td className="px-4 py-2 border">{item.name}</td>
+                      <td className="px-4 py-2 border">{item.desc}</td>
+                      <td className="px-4 py-2 border">{item.type}</td>
+                      <td className="px-4 py-2 border">{item.maxLen}</td>
+                      <td className="px-4 py-2 border">
+                        <input
+                          type="text"
+                          value={item.value}
+                          className="w-full border px-2 py-1"
+                          readOnly
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="text-center py-2 border">
+                      無資料
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </form>
   );

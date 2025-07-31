@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import useNavigateToHome from '../../../hooks/useNavigateToHome';
 import FileListForm from '../components/FileListForm';
 import PathTypeForm from '../components/PathTypeForm';
 import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const CompressedPage: React.FC = () => {
-  const { goToHomePage } = useNavigateToHome();
   const [pathType, setPathType] = useState<'SVN' | 'DEV'>('SVN');
   const [zipType, setZipType] = useState<'DEV' | 'NOFILE'>('DEV');
 
