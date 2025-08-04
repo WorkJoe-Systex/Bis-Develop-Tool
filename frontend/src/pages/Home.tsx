@@ -21,9 +21,9 @@ const Home: React.FC = () => {
       <section className="bg-gray-50 shadow-md rounded-lg p-6">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">🧰 功能選單</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <Button onClick={() => navigate('/hostmessage')} variant="yellow">Host Msg Parser</Button>
-          <Button onClick={() => navigate('/fakehostmessage')} variant="yellow">Fake Host Msg</Button>
-          <Button onClick={() => navigate('/compressed')} variant="yellow">Compress</Button>
+          <Button onClick={() => navigate('/hostmessage')} variant="yellow">電文解析</Button>
+          <Button onClick={() => navigate('/fakehostmessage')} variant="yellow">假電文</Button>
+          <Button onClick={() => navigate('/compressed')} variant="yellow">程式壓縮</Button>
           <Button onClick={() => navigate('/qrcode')} variant="yellow">QRcode</Button>
           <Button onClick={() => navigate('/test')} variant="yellow">Test</Button>
         </div>

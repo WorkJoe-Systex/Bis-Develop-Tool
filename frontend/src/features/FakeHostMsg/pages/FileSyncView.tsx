@@ -87,12 +87,10 @@ const FileSyncView: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen p-4 bg-gray-100">
-      {/* 🔹 Toolbar 上方按鈕列 */}
-      <div className="w-full flex justify-between items-center mb-4">
+      <div className="absolute top-4 left-4">
         <Button variant="success" onClick={() => setIsModalOpen(true)}>
           ➕ 新增電文
         </Button>
-        <BackToHomeButton />
       </div>
 
       {/* 🔸 主內容三欄區域 */}
@@ -163,6 +161,10 @@ const FileSyncView: React.FC = () => {
         </PanelBox>
       </div>
 
+      <div className="fixed bottom-4 right-4 z-10">
+        <BackToHomeButton />
+      </div>
+
       {/* 🔸 彈窗元件 */}
       <Modal isOpen={isModalOpen} onClose={handleCancel}>
         <h2 className="text-lg font-bold mb-4 border-b">新增電文</h2>
@@ -171,7 +173,6 @@ const FileSyncView: React.FC = () => {
           <Input
             id="newTxncode"
             ref={inputRef}
-            placeholder="輸入交易代號"
             value={newTxncode}
             onChange={(e) => setNewTxncode(e.target.value)}
             width="w-17"
@@ -202,13 +203,13 @@ const FileSyncView: React.FC = () => {
           />
 
           <br />
-          <label htmlFor="newDescription">描述：</label>
+          <label htmlFor="newDescription" className='pl-8'>描述：</label>
           <Input
             placeholder="輸入描述"
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
-            width="w-42"
-            maxLength={10}
+            width="w-50"
+            maxLength={15}
           />
 
           <br />

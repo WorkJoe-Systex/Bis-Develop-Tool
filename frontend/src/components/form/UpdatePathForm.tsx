@@ -13,7 +13,7 @@ interface PathFormProps {
 
 const PathForm: React.FC<PathFormProps> = ({ label, value, onChange, onSubmit }) => (
   <form onSubmit={onSubmit} className="flex items-center gap-4 mb-4">
-    <label className="w-36 text-right text-gray-700">{label}:</label>
+    <label className="w-36 text-right text-gray-700">{label}：</label>
     <Input
       type="text"
       value={value}
@@ -22,7 +22,7 @@ const PathForm: React.FC<PathFormProps> = ({ label, value, onChange, onSubmit })
       width="w-100"
       height="h-8"
     />
-    <Button type="submit" variant="primary">Update</Button>
+    <Button type="submit" variant="primary">更新</Button>
   </form>
 );
 
@@ -114,19 +114,19 @@ const UpdatePathForm: React.FC = () => {
   return (
     <div>
       <PathForm
-        label="Compress Path"
+        label="壓縮檔路徑"
         value={targetPath}
         onChange={setTargetPath}
         onSubmit={handleTargetPathSubmit}
       />
       <PathForm
-        label="JBranch Path"
+        label="SVN 路徑"
         value={jbranchPath}
         onChange={setJBranchPath}
         onSubmit={handleJBranchPathSubmit}
       />
       <PathForm
-        label="DEV Path"
+        label="TBIS 路徑"
         value={devPath}
         onChange={setDEVPath}
         onSubmit={handleDEVPathSubmit}
