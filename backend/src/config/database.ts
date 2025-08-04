@@ -79,6 +79,15 @@ try {
       qrcodes TEXT NOT NULL,
       createTime DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS TB_HOSTMSG (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      txncode TEXT NOT NULL,
+      hostmsg TEXT NOT NULL,
+      description TEXT NOT NULL,
+      status TEXT NOT NULL,
+      original_text TEXT NOT NULL
+    );
   `);
 
   console.log('✅ 資料表初始化完成');

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { searchFiles, compressToZip } from '../../Compressed/services/compressedService';
+import { compressToZip } from '../../Compressed/services/compressedService';
 
 const HostMsgTable: React.FC = () => {
   const [files, setFiles] = useState<string[]>([]);

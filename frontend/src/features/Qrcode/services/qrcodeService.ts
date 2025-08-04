@@ -1,4 +1,4 @@
-import { QRcode, QRCodeRecord } from "../types";
+import type { QRcode, QRCodeRecord } from "../types";
 
 const API_URL = 'http://localhost:3000/api/qrcode';
 

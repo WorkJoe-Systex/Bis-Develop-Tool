@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { queryUSERINFO } from '../services/compressedService';
 
 interface PathTypeFormProps {
@@ -9,7 +9,6 @@ interface PathTypeFormProps {
 }
 
 const PathTypeForm: React.FC<PathTypeFormProps> = ({ pathType, zipType, pathOnChange, zipOnChange }) => {
-
   // 在畫面載入時執行資料查詢
   useEffect(() => {
     const fetchFiles = async () => {
@@ -31,51 +30,67 @@ const PathTypeForm: React.FC<PathTypeFormProps> = ({ pathType, zipType, pathOnCh
 
 
   return (
-    <form>
-      <h3>Directory type</h3>
-      <label>
-        <input
-          type="radio"
-          value="SVN"
-          name="pathType"
-          checked={pathType === 'SVN'}
-          onChange={() => pathOnChange('SVN')}
-        />
-        SVN source
-      </label>
-      <label style={{ marginLeft: '1rem' }}>
-        <input
-          type="radio"
-          value="DEV"
-          name="pathType"
-          checked={pathType === 'DEV'}
-          onChange={() => pathOnChange('DEV')}
-        />
-        DEV source
-      </label>
+    <div className="bg-white p-4 rounded shadow">
+      <div className="grid grid-cols-2 gap-8">
+        {/* 來源選擇 */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">來源選擇</h2>
+          <div className="space-y-2">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="pathType"
+                value="SVN"
+                checked={pathType === 'SVN'}
+                onChange={() => pathOnChange('SVN')}
+                className="form-radio"
+              />
+              <span className="ml-2">SVN source</span>
+            </label>
+            <label className="inline-flex items-center ml-6">
+              <input
+                type="radio"
+                name="pathType"
+                value="DEV"
+                checked={pathType === 'DEV'}
+                onChange={() => pathOnChange('DEV')}
+                className="form-radio"
+              />
+              <span className="ml-2">DEV source</span>
+            </label>
+          </div>
+        </div>
 
-      <h3>Zip type</h3>
-      <label>
-        <input
-          type="radio"
-          value="DEV"
-          name="zipType"
-          checked={zipType === 'DEV'}
-          onChange={() => zipOnChange('DEV')}
-        />
-        DEV
-      </label>
-      <label style={{ marginLeft: '1rem' }}>
-        <input
-          type="radio"
-          value="NOFILE"
-          name="zipType"
-          checked={zipType === 'NOFILE'}
-          onChange={() => zipOnChange('NOFILE')}
-        />
-        NoFile
-      </label>
-    </form>
+        {/* 壓縮類型 */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">壓縮類型</h2>
+          <div className="space-y-2">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="zipType"
+                value="DEV"
+                checked={zipType === 'DEV'}
+                onChange={() => zipOnChange('DEV')}
+                className="form-radio"
+              />
+              <span className="ml-2">DEV</span>
+            </label>
+            <label className="inline-flex items-center ml-6">
+              <input
+                type="radio"
+                name="zipType"
+                value="NOFILE"
+                checked={zipType === 'NOFILE'}
+                onChange={() => zipOnChange('NOFILE')}
+                className="form-radio"
+              />
+              <span className="ml-2">No File</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

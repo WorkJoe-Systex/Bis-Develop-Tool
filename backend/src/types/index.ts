@@ -29,3 +29,11 @@ export interface QRCodeRecord {
   original_text: string;
   qrcodes: string[];
 }
+
+export interface HostMsg {
+  txncode: string;
+  hostmsg: string;
+  description: string;
+  status: string;
+  original_text: string;
+}

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPath, updateTargetPath } from '../../services/pathService';
+import Input from '../ui/Input';
+import Button from '../ui/Button';
 
 // 子組件：可重複使用的表單
 interface PathFormProps {
@@ -10,16 +12,17 @@ interface PathFormProps {
 }
 
 const PathForm: React.FC<PathFormProps> = ({ label, value, onChange, onSubmit }) => (
-  <form onSubmit={onSubmit}>
-    <label>{label}:</label>
-    <input
+  <form onSubmit={onSubmit} className="flex items-center gap-4 mb-4">
+    <label className="w-36 text-right text-gray-700">{label}：</label>
+    <Input
       type="text"
-      style={{ width: '700px' }}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={`Enter ${label.toLowerCase()}`}
+      width="w-100"
+      height="h-8"
     />
-    <button type="submit">Update</button>
+    <Button type="submit" variant="primary">更新</Button>
   </form>
 );
 
@@ -36,9 +39,9 @@ const UpdatePathForm: React.FC = () => {
       try {
         // 假設從後端取得的初始數據格式為：
         // [{ name: 'compress', path: '/some/path1' }, { name: 'jbranch', path: '/some/path2' }]
-        const targetData = await fetchPath('local', 'compress');
-        const jbranchData = await fetchPath('SVN', 'jbranch');
-        const devData = await fetchPath('DEV', 'dev-dir');
+        const targetData = await fetchPath('local', 'compress', 'path');
+        const jbranchData = await fetchPath('SVN', 'jbranch', 'path');
+        const devData = await fetchPath('DEV', 'dev-dir', 'path');
 
         console.log(targetData);
         console.log(jbranchData);
@@ -71,9 +74,10 @@ const UpdatePathForm: React.FC = () => {
     // 構建 PUT 請求
     try {
       const result = await updateTargetPath('local', 'compress', targetPath);
-      console.log(`TragetPath updated successfully:${result}`);
+      console.log(`TragetPath updated successfully:${result.message}`);
+      alert(`✅ 更新成功：${result.message}`);
     } catch (error) {
-      alert('Failed to update tragetPath.');
+      alert('❌ 更新 Compress Path 失敗');
       console.error('Form Error updating tragetPath:', error);
     }
   };
@@ -83,9 +87,10 @@ const UpdatePathForm: React.FC = () => {
     // 構建 PUT 請求
     try {
       const result = await updateTargetPath('SVN', 'jbranch', jbranchPath);
-      console.log(`JBranchPath updated successfully:${result}`);
+      console.log(`JBranchPath updated successfully:${result.message}`);
+      alert(`✅ 更新成功：${result.message}`);
     } catch (error) {
-      alert('Failed to update jbranchPath.');
+      alert('❌ 更新 JBranch Path 失敗');
       console.error('Form Error updating jbranchPath:', error);
     }
   };
@@ -95,66 +100,38 @@ const UpdatePathForm: React.FC = () => {
     // 構建 PUT 請求
     try {
       const result = await updateTargetPath('DEV', 'dev-dir', devPath);
-      console.log(`DEVPath updated successfully:${result}`);
+      console.log(`DEVPath updated successfully:${result.message}`);
+      alert(`✅ 更新成功：${result.message}`);
     } catch (error) {
-      alert('Failed to update devPath.');
+      alert('❌ 更新 DEV Path 失敗');
       console.error('Form Error updating devPath:', error);
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (isLoading) return <p className="text-gray-600">Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div>
       <PathForm
-        label="Compress Path"
+        label="壓縮檔路徑"
         value={targetPath}
         onChange={setTargetPath}
         onSubmit={handleTargetPathSubmit}
       />
       <PathForm
-        label="JBranch Path"
+        label="SVN 路徑"
         value={jbranchPath}
         onChange={setJBranchPath}
         onSubmit={handleJBranchPathSubmit}
       />
       <PathForm
-        label="DEV Path"
+        label="TBIS 路徑"
         value={devPath}
         onChange={setDEVPath}
         onSubmit={handleDEVPathSubmit}
       />
     </div>
-    // <div>
-    //   <form onSubmit={handleTragetPathSubmit}>
-    //     <label>Target Path:</label>
-    //     <input
-    //       type="text"
-    //       id="tragetPath"
-    //       name="path"
-    //       style={{ width: '700px' }}
-    //       value={targetPath}
-    //       onChange={(e) => setTargetPath(e.target.value)}
-    //       placeholder="Enter target path"
-    //     />
-    //     <button type="submit">Update</button>
-    //   </form>
-
-    //   <form onSubmit={handleJBranchPathSubmit}>
-    //     <label>JBranch Path:</label>
-    //     <input
-    //       type="text"
-    //       id="jbranchPath"
-    //       name="path"
-    //       style={{ width: '700px' }}
-    //       value={jbranchPath}
-    //       onChange={(e) => setJBranchPath(e.target.value)}
-    //       placeholder="Enter jbranch path"
-    //     />
-    //     <button type="submit">Update</button>
-    //   </form>
-    // </div>
   );
 };
 

@@ -1,27 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import HostMsgTable from '../components/HostMsgTable';
 import ParserPage from './ParserPage';
-import useNavigateToHome from '../../../hooks/useNavigateToHome';
-import { parseTiTotaData } from '../services/parserService';
+import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const HostMsgPage: React.FC = () => {
-  const { goToHomePage } = useNavigateToHome();
 
   return (
-    <div>
-      <div id="Table">
+    <div className="p-6 space-y-6">
+      <section className="bg-white shadow rounded p-4">
+        <h2 className="text-lg font-semibold mb-2">Host Message 列表</h2>
         <HostMsgTable />
-      </div>
-      <div>
-        <ParserPage />
-      </div>
-      <div>
+      </section>
 
-      </div>
-      <div>
-        <p>
-          <button onClick={goToHomePage}>Back</button>
-        </p>
+      <section className="bg-white shadow rounded p-4">
+        <h2 className="text-lg font-semibold mb-2">解析 Host Message</h2>
+        <ParserPage />
+      </section>
+
+      <div className="text-right">
+        <BackToHomeButton />
       </div>
     </div>
   );
