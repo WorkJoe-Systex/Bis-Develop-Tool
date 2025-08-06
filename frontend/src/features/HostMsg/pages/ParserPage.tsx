@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { parseTiTotaData } from '../services/parserService';
 import type { TiTota } from '../types';
 
@@ -6,7 +6,7 @@ const ParserPage: React.FC = () => {
   const [titaStr, setTitaStr] = useState('');
   const [totaStr, setTotaStr] = useState('');
   const [totaName, setTotaName] = useState('');
-  const [totaHeader, setTotaHeader] = useState('');
+  const [totaHeader, _setTotaHeader] = useState('');
 
   // 用 default 空陣列與物件初始化，避免 null 問題
   const [result, setResult] = useState<TiTota>({

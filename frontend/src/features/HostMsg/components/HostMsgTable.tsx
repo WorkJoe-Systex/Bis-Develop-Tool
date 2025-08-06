@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { compressToZip } from '../../Compressed/services/compressedService';
 
 const HostMsgTable: React.FC = () => {
-  const [files, setFiles] = useState<string[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
-  const [csvName, setCsvName] = useState<string>(''); // 管理 CSV_NAME
-  const [delList, setDelList] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  const [_isLoading, setIsLoading] = useState<boolean>(true);
+  const [_error, setError] = useState<string>('');
 
   // 在畫面載入時執行資料查詢
   useEffect(() => {
