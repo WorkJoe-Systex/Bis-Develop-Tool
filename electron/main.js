@@ -21,30 +21,6 @@ if (!gotTheLock) {
 
 let mainWindow;
 
-function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 800,
-    show: false,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    }
-  });
-
-  const indexPath = isDev
-    ? path.join(__dirname, '..', 'frontend', 'build', 'index.html')
-    : path.join(process.resourcesPath, 'app.asar.unpacked', 'build', 'index.html');
-
-  mainWindow.loadFile(indexPath);
-
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-  });
-
-  if (isDev) mainWindow.webContents.openDevTools();
-}
-
 // ✅ 設定 NODE_PATH 並初始化模組路徑
 const vendorPath = path.join(process.resourcesPath, 'backend', 'vendor_modules');
 process.env.NODE_PATH = vendorPath;

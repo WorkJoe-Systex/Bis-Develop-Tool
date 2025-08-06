@@ -10,7 +10,7 @@
     "build:electron": "cross-env DEBUG=electron-builder electron-builder",
     "dist": "npm run build:frontend && npm run build:backend && npm run build:electron",
     "electron": "electron .",
-    "clean": "rimraf release dist frontend/build backend/dist"
+    "clean": "rimraf release dist frontend/dist backend/dist"
   },
   "build": {
     "appId": "com.example.bisdevtool",
@@ -23,7 +23,7 @@
     },
     "files": [
       {
-        "from": "frontend/build",
+        "from": "frontend/dist",
         "to": "build"
       },
       "backend/dist/**/*",
@@ -70,7 +70,7 @@
       }
     ],
     "asarUnpack": [
-      "frontend/build/**/*",
+      "frontend/dist/**/*",
       "backend/dist/**/*",
       "backend/node.exe",
       "backend/run.bat",
@@ -80,8 +80,10 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
     "cross-env": "^7.0.3",
     "electron": "^26.2.1",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "vite": "^7.0.6"
   }
 }
