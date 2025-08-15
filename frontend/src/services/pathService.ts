@@ -7,11 +7,7 @@ const API_URL = 'http://localhost:3000/api/path';
 // finally()：無論 Promise 成功或失敗，最終都會執行的回呼函數。
 
 // `async`表示該參數為"異步函數"
-<<<<<<< HEAD
-export const fetchPath = async (serverType: string, name: string): Promise<Path[]> => {
-=======
 export const fetchPath = async (serverType: string, name: string): Promise<String> => {
->>>>>>> main
   // `fetch`發送HTTP請求至後端，並接收response
   // `await`關鍵字，表示等待 fetch 操作完成，然後將結果賦值給 response 變數
   const response = await fetch(API_URL + `/${serverType}/${name}`); // API 路徑
