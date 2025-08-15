@@ -5,6 +5,7 @@ import filesRoutes from './filesRoutes'
 import compressRoutes from './compressRoutes'
 import hostMsgRoutes from './hostMsgRoutes'
 import qrcodeRoutes from './qrcodeRoutes'
+import svnRoutes from './svnRoutes'
 import testRoutes from './testRoutes'
 
 const router = express.Router()
@@ -15,6 +16,7 @@ router.use('/files', filesRoutes);
 router.use('/compress', compressRoutes);
 router.use('/hostMsg', hostMsgRoutes);
 router.use('/qrcode', qrcodeRoutes);
+router.use('/svn', svnRoutes);
 
 router.use('/api/test', testRoutes);
 

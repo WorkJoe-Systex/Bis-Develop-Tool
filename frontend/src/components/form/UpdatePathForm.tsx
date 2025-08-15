@@ -1,30 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPath, updateTargetPath } from '../../services/pathService';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
-
-// 子組件：可重複使用的表單
-interface PathFormProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  onSubmit: (e: React.FormEvent) => Promise<void>;
-}
-
-const PathForm: React.FC<PathFormProps> = ({ label, value, onChange, onSubmit }) => (
-  <form onSubmit={onSubmit} className="flex items-center gap-4 mb-4">
-    <label className="w-36 text-right text-gray-700">{label}：</label>
-    <Input
-      type="text"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={`Enter ${label.toLowerCase()}`}
-      width="w-100"
-      height="h-8"
-    />
-    <Button type="submit" variant="primary">更新</Button>
-  </form>
-);
+import PathForm from '../ui/UpdatePath';
 
 const UpdatePathForm: React.FC = () => {
   const [targetPath, setTargetPath] = useState('');
@@ -47,17 +23,17 @@ const UpdatePathForm: React.FC = () => {
         console.log(jbranchData);
         console.log(devData);
         
-        const target = targetData.find((item) => item.path);
-        const jbranch = jbranchData.find((item) => item.path);
-        const dev = devData.find((item) => item.path);
+        // const target = targetData.find((item) => item.path);
+        // const jbranch = jbranchData.find((item) => item.path);
+        // const dev = devData.find((item) => item.path);
 
-        console.log(target);
-        console.log(jbranch);
-        console.log(dev);
+        // console.log(target);
+        // console.log(jbranch);
+        // console.log(dev);
 
-        setTargetPath(target?.path || ''); // 初始化 tragetPath
-        setJBranchPath(jbranch?.path || ''); // 初始化 jbranchPath
-        setDEVPath(dev?.path || ''); // 初始化 devPath
+        setTargetPath(targetData.toString() || ''); // 初始化 tragetPath
+        setJBranchPath(jbranchData.toString() || ''); // 初始化 jbranchPath
+        setDEVPath(devData.toString() || ''); // 初始化 devPath
       } catch (err) {
         setError('Failed to load initial data');
         console.error(err);

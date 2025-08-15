@@ -25,6 +25,7 @@ const Home: React.FC = () => {
           <Button onClick={() => navigate('/fakehostmessage')} variant="yellow">假電文</Button>
           <Button onClick={() => navigate('/compressed')} variant="yellow">程式壓縮</Button>
           <Button onClick={() => navigate('/qrcode')} variant="yellow">QRcode</Button>
+          <Button onClick={() => navigate('/fortify')} variant="yellow">弱掃程式打包</Button>
           <Button onClick={() => navigate('/test')} variant="yellow">Test</Button>
         </div>
       </section>

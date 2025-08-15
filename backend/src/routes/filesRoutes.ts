@@ -1,8 +1,11 @@
 import express from 'express';
-import { getFiles } from '../controllers/filesController';
+import { getFiles, genFile, moveFiles, mergeCSV } from '../controllers/filesController';
 
 const router = express.Router();
 
-router.get('/', getFiles);
+router.post('/getFiles', getFiles);
+router.post('/genFile', genFile);
+router.post('/moveFiles', moveFiles);
+router.post('/mergeCSV', mergeCSV);
 
 export default router;

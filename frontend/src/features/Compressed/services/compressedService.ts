@@ -3,24 +3,25 @@ import type { Files, UserInfo } from '../types.ts';
 const COMPRESS_API_URL = 'http://localhost:3000/api/compress';
 const USER_API_URL = 'http://localhost:3000/api/user';
 
-export const compressToZip = async (Files: string[], CompressedDir: string, ZipType: string): Promise<Files> => {
+export const compressToZip = async (ZipName: string, FunType: string, CsvPath: string, Files: string[], PathType: string, ZipType: string, doAlert?: boolean): Promise<Files> => {
   // API 路徑
   const response = await fetch(COMPRESS_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ files: Files, compressedDir: CompressedDir, zipType: ZipType }), // 將 path 作為 JSON 傳遞
+    body: JSON.stringify({ zipName: ZipName, funType: FunType, csvPath: CsvPath, files: Files, pathType: PathType, zipType: ZipType }), // 將 path 作為 JSON 傳遞
   });
 
   const data = await response.json();
 
-  if (response.ok) {
-    alert(`ZIP file created: ${data.zipName}`);
-  } else {
-    alert('Failed to compress files.');
+  if (doAlert) {
+    if (response.ok) {
+      alert(`ZIP file created: ${data.zipName}`);
+    } else {
+      alert('Failed to compress files.');
+    }
   }
-
   
   // 確保資料格式正確
   if (!data.files || !Array.isArray(data.files)) {
