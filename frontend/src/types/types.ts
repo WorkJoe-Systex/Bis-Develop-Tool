@@ -4,5 +4,10 @@ export interface Path {
 }
 
 export interface Files {
-  files: string[];
+  files: FileItem[];
+}
+
+export interface FileItem {
+  name: string;
+  disabled: boolean;
 }

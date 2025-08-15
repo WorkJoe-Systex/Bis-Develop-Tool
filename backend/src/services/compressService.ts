@@ -1,10 +1,10 @@
 import { cpHelper } from './utils/compressHelper';
-import * as pathModel from '../models/pathModel';
 import { Files } from '../types';
 import archiver from 'archiver';
 import iconv from 'iconv-lite';
 import path from "path";
 import fs from 'fs';
+import { getUniqueFileName } from './fileService';
 
 /**
  * 重複檔案
@@ -14,17 +14,32 @@ let ADD_FILE: string[] = [];
 let UPD_FILE: string[] = [];
 let DEL_FILE: string[] = [];
 
-export const compressFilesService = async (files: string[], compressedDir: string, zipType: string): Promise<Files> => {
+/**
+ * 解析.csv壓縮成.zip
+ * @param zipName
+ * @param funType 功能類型 VCS or VS
+ * @param csvPath .csv檔的目錄
+ * @param files .csv檔案名稱
+ * @param pathType 路徑類型 SVN or DEV
+ * @param zipType 壓縮類型 有結構 or 無結構
+ * @returns 
+ */
+export const compressFilesService = async (zipName: string, funType: string, csvPath: string, files: string[], pathType: string, zipType: string): Promise<Files> => {
   /**
    * CSV 目標目錄
    */
-  const TARGET_DIR = (await pathModel.getPath('local', 'compress'))[0].path + '\\'; // 取CSV目標路徑
+  const TARGET_DIR = csvPath + '\\'; // 取CSV目標路徑
 
   /**
    * 壓縮檔案的輸出目錄
    */
   const OUTPUT_DIR = path.join(TARGET_DIR, 'archive'); // 壓縮檔案的輸出目錄
-  const ZIP_FILENAME = await getUniqueFileName(OUTPUT_DIR, path.basename(files[0], path.extname(files[0])) + '.zip');
+  let ZIP_FILENAME = '';
+  if (funType === 'VCS') {
+    ZIP_FILENAME = await getUniqueFileName(OUTPUT_DIR, path.basename(files[0], path.extname(files[0])) + '.zip');
+  } else if (funType === 'VS') {
+    ZIP_FILENAME = await getUniqueFileName(OUTPUT_DIR, path.basename(zipName) + '.zip');
+  }
   
   console.log(`OUTPUT_DIR:${OUTPUT_DIR}`);
   cpHelper.ensureDir('outPut', OUTPUT_DIR);
@@ -84,29 +99,29 @@ export const compressFilesService = async (files: string[], compressedDir: strin
 
           if (server === 'AP') {
             if (fileType === 'A' && appCheck.includes(path.extname(source))) {
-              dataPath = await cpHelper.genDataPath(compressedDir, 'app', source);
+              dataPath = await cpHelper.genDataPath(pathType, 'app', source);
               compressPath = await cpHelper.genCompressPath(zipType, AP_APP, source);
             } else if (fileType === 'J' && javaCheck.includes(path.extname(source))) {
-              dataPath = await cpHelper.genDataPath(compressedDir, 'java', source);
+              dataPath = await cpHelper.genDataPath(pathType, 'java', source);
               compressPath = await cpHelper.genCompressPath(zipType, AP_JAVA, path.basename(source));
             } else if ((fileType === 'R' || fileType === 'H' || fileType === 'O') && webAppCheck.includes(path.extname(source))) {
-              dataPath = await cpHelper.genDataPath(compressedDir, 'web', source);
+              dataPath = await cpHelper.genDataPath(pathType, 'web', source);
               compressPath = await cpHelper.genCompressPath(zipType, AP_WEB, source);
             }
           }
   
           if (server === 'BH') {
             if (fileType === 'J' && javaCheck.includes(path.extname(source))) {
-              dataPath = await cpHelper.genDataPath(compressedDir, 'java', source);
+              dataPath = await cpHelper.genDataPath(pathType, 'java', source);
               compressPath = await cpHelper.genCompressPath(zipType, BH_JAVA, path.basename(source));
             } else if ((fileType === 'R' || fileType === 'H' || fileType === 'O') && webAppCheck.includes(path.extname(source))) {
-              dataPath = await cpHelper.genDataPath(compressedDir, 'web', source);
+              dataPath = await cpHelper.genDataPath(pathType, 'web', source);
               compressPath = await cpHelper.genCompressPath(zipType, BH_WEB, source);
             }
           }
   
           if (server === 'PF' && fileType === 'P' && javaCheck.includes(path.extname(source))) {
-            dataPath = await cpHelper.genDataPath(compressedDir, txcode, source);
+            dataPath = await cpHelper.genDataPath(pathType, txcode, source);
             compressPath = await cpHelper.genCompressPath(zipType, 'platform/' + txcode, source);
           }
 
@@ -143,33 +158,6 @@ export const compressFilesService = async (files: string[], compressedDir: strin
     zipName: ZIP_FILENAME,
     delList: DEL_FILE
   }
-}
-
-/**
- * 生成唯一檔案名稱
- * @param dir 目標目錄
- * @param filename 初始檔案名稱
- * @returns 唯一的檔案名稱
- */
-async function getUniqueFileName(dir: string, filename: string): Promise<string> {
-  const ext = path.extname(filename); // 檔案副檔名
-  const baseName = path.basename(filename, ext); // 檔案名稱（不含副檔名）
-  let uniqueName = filename; // 預設為原始檔名
-  let counter = 1;
-
-  // 檢查目標名稱是否已存在
-  while (true) {
-    const filePath = path.join(dir, uniqueName);
-    try {
-      await fs.promises.access(filePath); // 如果檔案存在，不會拋出例外
-      uniqueName = `${baseName} (${counter})${ext}`; // 生成新的名稱
-      counter++;
-    } catch {
-      // 檔案不存在，跳出迴圈
-      break;
-    }
-  }
-  return uniqueName;
 }
 
 /**

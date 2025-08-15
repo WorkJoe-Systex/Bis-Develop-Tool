@@ -1,60 +1,38 @@
-import React, { useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
+import React from "react";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  width?: string;
+  width?: string;  // 新增
+  height?: string; // 新增
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      setVisible(true);
-    } else {
-      // 加入淡出動畫
-      setTimeout(() => setVisible(false), 200);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleEsc);
-    return () => document.removeEventListener('keydown', handleEsc);
-  }, [onClose]);
-
-  if (!visible && !isOpen) return null;
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, width = 'max-w-lg', height = 'auto' }) => {
+  if (!isOpen) return null;
 
   return (
-    <div
-      ref={(node) => {
-  		  overlayRef.current = node;
-  		}}
-      className={clsx(
-			  'fixed inset-0 z-50 flex items-center justify-center',
-			  'backdrop-blur-sm bg-gray-400/30 transition-opacity duration-200',
-			  isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-			)}
-      onClick={(e) => {
-        if (e.target === overlayRef.current) {
-          onClose();
-        }
-      }}
-    >
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      {/* 背景遮罩 */}
       <div
-			  className={clsx(
-			    'bg-white rounded-lg shadow-xl p-6 w-full max-w-md transform transition-all duration-300',
-			    isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-			  )}
-			  onClick={(e) => e.stopPropagation()}
-			>
+        className="absolute inset-0 bg-black/50"
+        onClick={onClose}
+      ></div>
+
+      {/* Modal 主體 */}
+      <div
+        className={`relative bg-white rounded-2xl shadow-lg w-full p-6 flex flex-col`}
+        style={{ maxWidth: width, maxHeight: height }}
+      >
         {children}
+
+        {/* 關閉按鈕 */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
+        >
+          ✕
+        </button>
       </div>
     </div>
   );

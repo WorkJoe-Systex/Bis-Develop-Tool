@@ -166,7 +166,7 @@ const FileSyncView: React.FC = () => {
       </div>
 
       {/* 🔸 彈窗元件 */}
-      <Modal isOpen={isModalOpen} onClose={handleCancel}>
+      <Modal isOpen={isModalOpen} onClose={handleCancel} width='500px'>
         <h2 className="text-lg font-bold mb-4 border-b">新增電文</h2>
         <div className="space-y-3" onKeyDown={handleKeyDown}>
           <label htmlFor="newTxncode">交易代號：</label>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { compressToZip, updatePathType } from '../services/compressedService';
 import { searchFiles } from '../../../services/fileService';
+import type { FileItem } from '../../../types/types';
+import { fetchPath } from '../../../services/pathService';
 
 interface FileListFormProps {
   pathType: 'SVN' | 'DEV';
@@ -8,7 +10,7 @@ interface FileListFormProps {
 }
 
 const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<FileItem[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [csvName, setCsvName] = useState<string>(''); // 管理 CSV_NAME
   const [delList, setDelList] = useState<string[]>([]);
@@ -27,7 +29,8 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
     setError(''); // 清空先前的錯誤訊息
     setIsLoading(true);
     try {
-      const data = await searchFiles('?serverType=local&name=compress&fileType=.csv');
+      const path = await fetchPath('local', 'compress');
+      const data = await searchFiles(path.toString(), '.csv');
       setFiles(data.files); // 使用返回的檔案列表
     } catch (err: any) {
       setError('Failed to load files');
@@ -71,7 +74,8 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
 
     try {
       if (selectedFiles.length !== 0) {
-        const data = await compressToZip(selectedFiles, pathType, zipType);
+        const getCsvPath = await fetchPath('local', 'compress');
+        const data = await compressToZip('', 'VCS', getCsvPath[0], selectedFiles, pathType, zipType, true);
         if (data.delList) {
           setDelList(data.delList);
           console.log(`data.delList:${data.delList}`)
@@ -84,7 +88,7 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
       }
     } catch (err: any) {
       console.error('Error:', err.message);
-      alert('An error occurred.');
+      alert(err.message);
     }
   };
 
@@ -105,15 +109,15 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
 
       <ul className="space-y-1">
         {files.map((file) => (
-          <li key={file} className="flex items-center space-x-2">
+          <li key={file.name} className="flex items-center space-x-2">
             <input
-              id={file}
+              id={file.name}
               type="checkbox"
-              checked={selectedFiles.includes(file)}
-              onChange={() => handleFileSelect(file)}
+              checked={selectedFiles.includes(file.name)}
+              onChange={() => handleFileSelect(file.name)}
               className="form-checkbox"
             />
-            <label htmlFor={file} className="text-gray-700">{file}</label>
+            <label htmlFor={file.name} className="text-gray-700">{file.name}</label>
           </li>
         ))}
       </ul>
