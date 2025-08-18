@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const { app, BrowserWindow, protocol } = require('electron');
-const { execFile } = require('child_process');
+const { spawn } = require('child_process');
 const os = require('os');
 const net = require('net');
+const http = require('http');
 
-// 🧱 單一實例鎖
+// 單一實例鎖
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
@@ -20,30 +21,22 @@ if (!gotTheLock) {
 }
 
 let mainWindow;
+let backendProcess = null;
+const isDev = !app.isPackaged;
 
-// ✅ 設定 NODE_PATH 並初始化模組路徑
+// 設定 NODE_PATH 並初始化模組路徑
 const vendorPath = path.join(process.resourcesPath, 'backend', 'vendor_modules');
 process.env.NODE_PATH = vendorPath;
 require('module').Module._initPaths();
-
-// ✅ 正確使用 NODE_PATH 載入 tree-kill
 const treeKill = require(path.join(vendorPath, 'tree-kill'));
 
-const isDev = !app.isPackaged;
-let backendProcess = null;
-
-// ✅ 設定 NODE_PATH 給 vendor_modules
-process.env.NODE_PATH = path.join(process.resourcesPath, 'backend', 'vendor_modules');
-require('module').Module._initPaths();
-
-// ✅ Debug log 輸出路徑
+// Debug log
 const debugLogPath = path.join(app.getPath('temp'), 'bis-electron-main.log');
 const debugStream = fs.createWriteStream(debugLogPath, { flags: 'a' });
 console.log = (...args) => debugStream.write(`[console.log] ${args.join(' ')}\n`);
 console.error = (...args) => debugStream.write(`[console.error] ${args.join(' ')}\n`);
 
-
-// ✅ 在這裡註冊一個安全協定（解決 Not allowed to load local resource）
+// 註冊安全協定
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ]);
@@ -62,16 +55,15 @@ function createWindow() {
     const devPath = path.join(__dirname, '..', 'frontend', 'build', 'index.html');
     win.loadFile(devPath);
   } else {
-    console.log('🚀 App Path:', app.getAppPath());
-    console.log('📦 準備載入 index.html：', path.join(app.getAppPath(), 'build', 'index.html'));
-
     const htmlPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'build', 'index.html');
-    win.loadFile(htmlPath); // ✅ 直接用 file path 載入 HTML
+    win.loadFile(htmlPath);
   }
 
   if (isDev || process.env.DEBUG_UI === 'true') {
     win.webContents.openDevTools();
   }
+
+  mainWindow = win;
 }
 
 function isPortInUse(port) {
@@ -83,51 +75,58 @@ function isPortInUse(port) {
   });
 }
 
-function startBackend() {
-  const script = os.platform() === 'win32' ? 'run.bat' : 'run.sh';
-  const scriptPath = path.join(process.resourcesPath, 'backend', script);
+// ✅ 健康檢查等待
+async function waitForServer(url, timeout = 15000) {
+  const startTime = Date.now();
+  while (Date.now() - startTime < timeout) {
+    try {
+      await new Promise((resolve, reject) => {
+        http.get(url, (res) => {
+          if (res.statusCode === 200) resolve(true);
+          else reject();
+        }).on('error', reject);
+      });
+      console.log('✅ 後端已就緒');
+      return true;
+    } catch {
+      console.log('⏳ 等待後端啟動中...');
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+  throw new Error('❌ 後端啟動超時');
+}
 
-  if (!fs.existsSync(scriptPath)) {
-    console.error(`❌ 無法找到後端啟動腳本：${scriptPath}`);
+// ✅ 直接 spawn 啟動後端
+function startBackend() {
+  const nodePath = path.join(process.resourcesPath, 'backend', 'node.exe');
+  const serverPath = path.join(process.resourcesPath, 'backend', 'dist', 'server.js');
+
+  if (!fs.existsSync(nodePath) || !fs.existsSync(serverPath)) {
+    console.error(`❌ 找不到後端啟動檔案：${nodePath} / ${serverPath}`);
     return;
   }
 
-  console.log('🔍 PATH:', process.env.PATH);
-  console.log('🚀 執行後端腳本：', scriptPath);
+  console.log('🚀 啟動後端：', nodePath, serverPath);
 
-  // ✅ 實際執行 backend
-  backendProcess = execFile(scriptPath, {
-    cwd: path.dirname(scriptPath),
-    shell: os.platform() !== 'win32',
+  backendProcess = spawn(nodePath, [serverPath], {
+    cwd: path.join(process.resourcesPath, 'backend')
   });
 
-  backendProcess.stdout?.on('data', data => {
-    console.log(`[stdout] ${data}`);
-  });
-  backendProcess.stderr?.on('data', data => {
-    console.error(`[stderr] ${data}`);
-  });
-  backendProcess.on('error', err => {
-    console.error('❌ 後端啟動失敗：', err.message);
-  });
-  backendProcess.on('exit', code => {
-    console.log(`ℹ️ 後端程式結束，代碼：${code}`);
-  });
-  console.log(`🧪 backendProcess.pid: ${backendProcess.pid}`);
+  backendProcess.stdout?.on('data', data => console.log(`[stdout] ${data}`));
+  backendProcess.stderr?.on('data', data => console.error(`[stderr] ${data}`));
+  backendProcess.on('error', err => console.error('❌ 後端啟動失敗：', err.message));
+  backendProcess.on('exit', code => console.log(`ℹ️ 後端結束，代碼：${code}`));
 }
 
-// ✅ 啟動階段註冊自訂協定 主流程
 app.whenReady().then(async () => {
   console.log('✅ App is ready');
 
   if (!isDev) {
-    // 註冊 app:// 協定處理器
+    // 註冊 app:// 協定
     await protocol.handle('app', (request) => {
       const url = request.url.replace('app://', '').replace(/^\/+/, '');
       const finalPath = url === '' || url === '-' || url === '-/' ? 'index.html' : url;
       const filePath = path.join(process.resourcesPath, 'app.asar.unpacked', 'build', finalPath);
-
-      console.log('📦 Handling app:// request for', filePath);
 
       const ext = path.extname(filePath);
       const mimeTypes = {
@@ -141,46 +140,41 @@ app.whenReady().then(async () => {
         '.svg': 'image/svg+xml',
       };
       const mimeType = mimeTypes[ext] || 'text/plain';
-    
+
       return fs.promises.readFile(filePath).then(data => ({
         data,
         mimeType,
-      })).catch(err => {
-        console.error('❌ Failed to read frontend file:', err);
-        return {
-          data: Buffer.from(`<h1>Failed to load frontend</h1><pre>${err.message}</pre>`),
-          mimeType: 'text/html',
-        };
-      });
+      })).catch(err => ({
+        data: Buffer.from(`<h1>Failed to load frontend</h1><pre>${err.message}</pre>`),
+        mimeType: 'text/html',
+      }));
     });
 
-    // ✅ 確保 port 沒被占用才啟動後端
     const port = 3000;
     const inUse = await isPortInUse(port);
     if (inUse) {
       console.error(`❌ Port ${port} 已被使用，跳過後端啟動`);
     } else {
       startBackend();
+      await waitForServer(`http://localhost:${port}/api/health`); // 需要後端有 /api/health
     }
   }
+
   createWindow();
 });
 
-// ✅ 關閉視窗時關閉應用
+// 關閉視窗時退出
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// ✅ 退出 app 時殺掉後端
+// 關閉 app 時殺掉後端
 app.on('before-quit', () => {
   if (backendProcess && !backendProcess.killed) {
     console.log('🛑 Killing backend...');
     treeKill(backendProcess.pid, 'SIGTERM', (err) => {
-      if (err) {
-        console.error('❌ Failed to kill backend process:', err);
-      } else {
-        console.log('✅ Backend process killed.');
-      }
+      if (err) console.error('❌ Failed to kill backend process:', err);
+      else console.log('✅ Backend process killed.');
     });
   }
 });

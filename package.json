@@ -1,7 +1,7 @@
 {
   "name": "bis-develop-tool",
   "version": "1.0.0",
-  "description": "A desktop tool for file compression and XML parsing",
+  "description": "BisDevelopTool",
   "author": "Joe",
   "main": "electron/main.js",
   "scripts": {
@@ -26,7 +26,6 @@
         "from": "frontend/dist",
         "to": "build"
       },
-      "backend/dist/**/*",
       "electron/main.js",
       "package.json"
     ],
@@ -53,28 +52,22 @@
         "to": "backend/node.exe"
       },
       {
-        "from": "backend/node-binary/run.bat",
-        "to": "backend/run.bat"
-      },
-      {
-        "from": "backend/node-binary/run.sh",
-        "to": "backend/run.sh"
-      },
-      {
         "from": "backend/vendor_modules",
         "to": "backend/vendor_modules"
       },
       {
         "from": "backend/data",
         "to": "backend/data"
+      },
+      {
+        "from": "backend/dist",
+        "to": "backend/dist"
       }
     ],
     "asarUnpack": [
       "frontend/dist/**/*",
       "backend/dist/**/*",
       "backend/node.exe",
-      "backend/run.bat",
-      "backend/run.sh",
       "backend/vendor_modules/**/*",
       "backend/data/data.db"
     ]
