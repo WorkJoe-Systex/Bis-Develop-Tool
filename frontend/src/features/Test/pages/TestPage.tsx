@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import FlowModal from '../components/FlowModal';
 
 export default function MainPage() {

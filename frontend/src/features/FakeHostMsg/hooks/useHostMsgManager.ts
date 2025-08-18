@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { searchFiles } from '../../../services/fileService';
 import { qryAllHostMsg, updateHostMsgStatus } from '../services/fakeHostMsgService';
 import type { HostMsg } from '../types';
+import { fetchPath } from '../../../services/pathService';
 
 export const useHostMsgManager = () => {
   const [files, setFiles] = useState<string[]>([]);
@@ -22,8 +23,9 @@ export const useHostMsgManager = () => {
   const fetchFiles = async () => {
     setIsLoading(true);
     try {
-      const data = await searchFiles('?serverType=SVN&name=fakeHostMsg&fileType=.txt');
-      setFiles(data.files);
+      const path = await fetchPath('SVN', 'fakeHostMsg');
+      const data = await searchFiles(path.toString(), '.txt');
+      setFiles(data.files.map(f => f.name));
     } catch (err) {
       setError('Failed to load files');
     } finally {
