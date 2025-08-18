@@ -1,6 +1,7 @@
 import { execPromise } from '../services/svnService';
 import { Request, Response } from 'express';
 import fs from 'fs';
+import path from 'path';
 
 const svnPath = 'C:\\Program Files\\SlikSvn\\bin\\svn.exe'; // loacl TortoiseProc.exe安裝目錄
 
@@ -16,7 +17,7 @@ export const svnUpdateHandler = async (req: Request, res: Response) => {
     if (!targetDir || !fs.existsSync(svnPath) || !fs.existsSync(targetDir)) {
 	    res.status(400).json({ error: 'Missing svnPath or targetDir' });
 	  }
-    const command = `"${svnPath}" /command:update /path:"${targetDir}" /closeonend:0`;
+    const command = `"${svnPath}" update "${targetDir}"`;
     await execPromise(command);
 
     res.json({ success: true, message: `SVN 更新完成` });
@@ -39,7 +40,7 @@ export const svnCommitHandler = async (req: Request, res: Response) => {
 	    res.status(400).json({ error: 'Missing svnPath or targetDir' });
 	  }
     const commitMessage = `Auto-commit to ${folderName}`;
-    await execPromise(`"${svnPath}" commit "${targetDir}" -m "${commitMessage}"`);
+    await execPromise(`"${svnPath}" commit "${path.join(targetDir, folderName)}" -m "${commitMessage}"`);
 
     res.json({ success: true, message: `SVN commit 成功：${folderName}` });
   } catch (error: any) {
