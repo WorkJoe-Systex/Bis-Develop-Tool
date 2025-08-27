@@ -23,8 +23,9 @@ export const useHostMsgManager = () => {
   const fetchFiles = async () => {
     setIsLoading(true);
     try {
+      const jbranch = await fetchPath('SVN', 'jbranch');
       const path = await fetchPath('SVN', 'fakeHostMsg');
-      const data = await searchFiles(path.toString(), '.txt');
+      const data = await searchFiles(jbranch.toString() + path.toString(), '.txt');
       setFiles(data.files.map(f => f.name));
     } catch (err) {
       setError('Failed to load files');
