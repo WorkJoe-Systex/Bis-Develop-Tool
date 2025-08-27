@@ -29,7 +29,8 @@ export default function FlowModal({ isOpen, onClose, fileName, pathType, trigger
     { id: 2, title: '檢查檔案並建立資料夾', status: 'pending', log: '' },
     { id: 3, title: '合併 CSV 檔案', status: 'pending', log: '' },
     { id: 4, title: '產生 ZIP 檔案', status: 'pending', log: '' },
-    { id: 5, title: 'SVN Commit 變更', status: 'pending', log: '' },
+    { id: 5, title: 'SVN Commit 已掃', status: 'pending', log: '' },
+    { id: 6, title: 'SVN Commit 待掃', status: 'pending', log: '' },
   ]);
 
   const [steps, setSteps] = useState<Step[]>(defaultSteps);
@@ -106,7 +107,15 @@ export default function FlowModal({ isOpen, onClose, fileName, pathType, trigger
               return `: ${repCompressToZip.zipName}`;
             case 5 :
               await svnAdd(scannedPath.toString(), scannedPath.toString() + '\\' + fileName);
-              await svnCommit(scannedPath.toString(), 'DEV_' + fileName + '.csv');
+              await svnCommit(bisProjectPath.toString() + scannedPath.toString(), fileName);
+              break;
+            case 6 :
+              // 先用反斜線或斜線切割
+              const segments = notScanPath.split(/[/\\]/).filter(Boolean);
+              // 去掉最後一個
+              const parentPath = "\\" + segments.slice(0, -1).join("\\");
+              const lastFolder = segments[segments.length - 1];
+              await svnCommit(bisProjectPath.toString() + parentPath, lastFolder);
               break;
           }
         });
