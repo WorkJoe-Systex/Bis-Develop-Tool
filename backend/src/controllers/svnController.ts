@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 
-const svnPath = 'C:\\Program Files\\SlikSvn\\bin\\svn.exe'; // loacl TortoiseProc.exe安裝目錄
+const svnPath = 'C:\\Program Files\\SlikSvn\\bin\\svn.exe'; // loacl TortoiseProc.exe SlikSvn 安裝目錄
 
 /**
  * 執行 SVN Update
