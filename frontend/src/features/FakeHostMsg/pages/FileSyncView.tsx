@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHostMsgManager } from '../hooks/useHostMsgManager';
 import FileList from '../components/FileList';
 import HostMsgList from '../components/HostMsgList';
-import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 import Input from '../../../components/ui/Input';
 import Button from '../../../components/ui/Button';
 import PanelBox from '../../../components/ui/PanelBox';
@@ -159,10 +158,6 @@ const FileSyncView: React.FC = () => {
           />
           <HostMsgList type="db" data={filterMessages_DB(dbHostMsg)} onMove={moveToLocal} />
         </PanelBox>
-      </div>
-
-      <div className="fixed bottom-4 right-4 z-10">
-        <BackToHomeButton />
       </div>
 
       {/* 🔸 彈窗元件 */}

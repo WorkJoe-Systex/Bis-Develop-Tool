@@ -12,17 +12,18 @@ interface Route {
   element: React.ReactNode;
   title?: string; // 頁面標題
   requiresAuth?: boolean; // 是否需要驗證
+  layout?: boolean; // 是否需要套用 Layout
 }
 
 // 存放所有的路由配置
 const routes: Route[] = [
-  { path: '/', element: <Home /> },
-  { path: '/hostmessage', element: <HostMsgPage /> },
-  { path: '/fakehostmessage', element: <FakeHostMsgPage /> },
-  { path: '/compressed', element: <CompressedPage /> },
-  { path: '/qrcode', element: <QrcodePage /> },
-  { path: '/fortify', element: <FortifyPage /> },
-  { path: '/test', element: <TestPage /> },
+  { path: '/', element: <Home />, layout: false },
+  { path: '/hostmessage', element: <HostMsgPage />, layout: true },
+  { path: '/fakehostmessage', element: <FakeHostMsgPage />, layout: true },
+  { path: '/compressed', element: <CompressedPage />, layout: true },
+  { path: '/qrcode', element: <QrcodePage />, layout: true },
+  { path: '/fortify', element: <FortifyPage />, layout: true },
+  { path: '/test', element: <TestPage />, layout: true },
 ];
 
 export default routes;

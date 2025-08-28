@@ -9,11 +9,20 @@ export interface Path {
   serverType: string;
 }
 
-export interface Files {
+export interface ZipFiles {
   files: string[];
   zipPath: string;
   zipName: string;
   delList: string[];
+}
+
+export interface Files {
+  files: FileItem[];
+}
+
+export interface FileItem {
+  name: string;
+  disabled: boolean;
 }
 
 export interface FileType {

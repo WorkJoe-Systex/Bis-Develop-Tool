@@ -1,5 +1,5 @@
 import { cpHelper } from './utils/compressHelper';
-import { Files } from '../types';
+import { ZipFiles } from '../types';
 import archiver from 'archiver';
 import iconv from 'iconv-lite';
 import path from "path";
@@ -24,7 +24,7 @@ let DEL_FILE: string[] = [];
  * @param zipType 壓縮類型 有結構 or 無結構
  * @returns 
  */
-export const compressFilesService = async (zipName: string, funType: string, csvPath: string, files: string[], pathType: string, zipType: string): Promise<Files> => {
+export const compressFilesService = async (zipName: string, funType: string, csvPath: string, files: string[], pathType: string, zipType: string): Promise<ZipFiles> => {
   /**
    * CSV 目標目錄
    */

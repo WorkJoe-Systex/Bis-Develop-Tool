@@ -75,7 +75,7 @@ const FileListForm: React.FC<FileListFormProps> = ({ pathType, zipType }) => {
     try {
       if (selectedFiles.length !== 0) {
         const getCsvPath = await fetchPath('local', 'compress');
-        const data = await compressToZip('', 'VCS', getCsvPath[0], selectedFiles, pathType, zipType, true);
+        const data = await compressToZip('', 'VCS', getCsvPath.toString(), selectedFiles, pathType, zipType, true);
         if (data.delList) {
           setDelList(data.delList);
           console.log(`data.delList:${data.delList}`)

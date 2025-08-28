@@ -4,30 +4,26 @@ import * as fileService from '../services/fileService';
 import path from "path";
 import fs from 'fs';
 import fs_extra from 'fs-extra';
+import { FileItem, Files } from '../types';
 
 // 功能：取local存放.csv的路徑返回給前端
 export const getFiles = async (req: Request, res: Response): Promise<void> => {
   try {
     const { targetPath, fileType } = req.body; // 從路徑參數取得 serverType 和 name
-
+    let result: FileItem[] = [];
+    
     if (!targetPath) {
       res.status(400).json({ error: 'targetPath or fileType is required' });
       return;
     }
 
     // 檢查該路徑是否存在
-    try {
-      await fs.promises.access(targetPath.toString()); // 檢查檔案夾是否存在
-    } catch {
-      res.status(400).json({ error: 'Path not found' });
-      return;
-    }
-
+    await fs.promises.access(targetPath.toString()); // 檢查檔案夾是否存在
+  
     // 讀取該路徑下所有檔案
     const allFiles = await fs.promises.readdir(targetPath.toString());
 
     // 篩選出 .csv/ .txt 檔案
-    let result;
     if (fileType === '.csv') {
       const todayStr = new Date().toISOString().slice(0, 10).replace(/-/g, ''); // 20250808
       const files = allFiles.filter((file) => path.extname(file).toLowerCase() === '.csv');
@@ -36,9 +32,13 @@ export const getFiles = async (req: Request, res: Response): Promise<void> => {
         name: file,
         disabled: file.includes(todayStr) // 檔名包含今天日期就不可選
       }));
-
+      
     } else if (fileType === '.txt') {
-      result = allFiles.filter((file) => path.extname(file).toLowerCase() === '.txt');
+      const files = allFiles.filter((file) => path.extname(file).toLowerCase() === '.txt');
+      result = files.map(file => ({
+        name: file,
+        disabled: false,
+      }));
     }
 
     // 將檔案清單返回給前端
@@ -46,7 +46,11 @@ export const getFiles = async (req: Request, res: Response): Promise<void> => {
   } catch (error: any) {
     console.error('Error fetching files:', error);
     // 捕捉並返回 HTTP 500 錯誤碼，並附上錯誤訊息
-    res.status(500).json({ error: error.message });
+    if (error.code === 'ENOENT') {
+      res.status(400).json({ error: 'Path not found' });
+    } else {
+      res.status(500).json({ error: error.message || 'Internal server error' });
+    }
   }
 };
 

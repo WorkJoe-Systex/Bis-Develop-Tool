@@ -66,14 +66,14 @@ export const svnAdd = async (targetDir: string, addFilePath: string): Promise<an
   return data;
 };
 
-export const svnCommit = async (targetDir: string, folderName: string): Promise<any> => {
+export const svnCommit = async (targetDir: string, folderName: string, deleteScanFlg: boolean): Promise<any> => {
   // API 路徑
   const response = await fetch(`${SVN_API_URL}/svnCommit`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ targetDir: targetDir, folderName: folderName }),
+    body: JSON.stringify({ targetDir: targetDir, folderName: folderName, deleteScanFlg: deleteScanFlg }),
   });
 
   if (!response.ok) {
