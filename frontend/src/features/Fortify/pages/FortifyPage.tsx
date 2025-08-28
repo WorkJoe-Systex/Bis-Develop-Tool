@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PathTypeForm from '../components/PathTypeForm';
-import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 import Button from '../../../components/ui/Button';
 import FlowModal from '../components/FlowModal';
 import SetInfoForm from '../components/SetInfoForm';
@@ -22,7 +21,7 @@ const FortifyPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-10 space-y-6 bg-gray-50 rounded shadow">
+    <div className="max-w-3xl mx-auto p-10 space-y-6">
       <h1 className="text-2xl font-bold text-gray-800">📦 弱掃程式打包頁面</h1>
 
       <div className="bg-white p-4 rounded shadow space-y-4">
@@ -34,7 +33,7 @@ const FortifyPage: React.FC = () => {
         <Button 
           variant="success"
           onClick={handleOpenAndRun}
-          className="w-full bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+          className="w-full bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 mt-6"
         >
           開始
         </Button>
@@ -47,8 +46,6 @@ const FortifyPage: React.FC = () => {
         onClose={handleCancel}
         triggerStart={triggerStart}
       />
-
-      <BackToHomeButton />
     </div>
   );
 };

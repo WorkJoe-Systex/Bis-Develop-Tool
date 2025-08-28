@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as compressService from '../services/compressService';
-import { Files } from '../types';
+import { ZipFiles } from '../types';
 const { validateCompressRequest } = require('../models/compressModel');
 
 // 功能：.csv檔案壓縮
@@ -20,7 +20,7 @@ export const compressFiles = async (req: Request, res: Response) => {
   }
 
   try {
-    let response: Files;
+    let response: ZipFiles;
     
     // 呼叫 Service 進行檔案壓縮
     if (pathType === 'SVN' || pathType === 'DEV') {

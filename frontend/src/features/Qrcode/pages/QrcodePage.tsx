@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import GenQrcodeForm from '../components/GenQrcodeForm';
 import QryQrcodeForm from '../components/QryQrcodeForm';
-import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const QrcodePage: React.FC = () => {
   const [mode, setMode] = useState<'generate' | 'query'>('generate');
@@ -9,7 +8,7 @@ const QrcodePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow">
-      <h1 className="text-2xl font-bold text-center mb-4">QRcode 功能頁</h1>
+        <h1 className="text-2xl font-bold text-center mb-4">QRcode 功能頁</h1>
 
         {/* 切換按鈕區塊 */}
         <div className="flex rounded-md overflow-hidden mb-6 border border-gray-300">
@@ -39,8 +38,6 @@ const QrcodePage: React.FC = () => {
         <div className="mb-6">
           {mode === 'generate' ? <GenQrcodeForm /> : <QryQrcodeForm />}
         </div>
-
-        <BackToHomeButton />
       </div>
     </div>
   );

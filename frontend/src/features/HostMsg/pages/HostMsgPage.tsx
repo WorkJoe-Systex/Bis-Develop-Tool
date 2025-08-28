@@ -1,7 +1,6 @@
 import React from 'react';
 import HostMsgTable from '../components/HostMsgTable';
 import ParserPage from './ParserPage';
-import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const HostMsgPage: React.FC = () => {
 
@@ -16,10 +15,6 @@ const HostMsgPage: React.FC = () => {
         <h2 className="text-lg font-semibold mb-2">解析 Host Message</h2>
         <ParserPage />
       </section>
-
-      <div className="text-right">
-        <BackToHomeButton />
-      </div>
     </div>
   );
 };

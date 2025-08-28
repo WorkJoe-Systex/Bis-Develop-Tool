@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import FileListForm from '../components/FileListForm';
 import PathTypeForm from '../components/PathTypeForm';
-import BackToHomeButton from '../../../components/ui/BackToHomeButton';
 
 const CompressedPage: React.FC = () => {
   const [pathType, setPathType] = useState<'SVN' | 'DEV'>('SVN');
@@ -17,8 +16,6 @@ const CompressedPage: React.FC = () => {
         zipOnChange={setZipType}
       />
       <FileListForm pathType={pathType} zipType={zipType} />
-
-      <BackToHomeButton />
     </div>
   );
 };

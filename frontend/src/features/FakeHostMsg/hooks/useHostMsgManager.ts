@@ -3,9 +3,10 @@ import { searchFiles } from '../../../services/fileService';
 import { qryAllHostMsg, updateHostMsgStatus } from '../services/fakeHostMsgService';
 import type { HostMsg } from '../types';
 import { fetchPath } from '../../../services/pathService';
+import type { FileItem } from '../../../types/types';
 
 export const useHostMsgManager = () => {
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<FileItem[]>([]);
   const [dbHostMsg, setDbHostMsg] = useState<HostMsg[]>([]);
   const [localHostMsg, setLocalHostMsg] = useState<HostMsg[]>([]);
   const [error, setError] = useState<string>('');
@@ -26,7 +27,8 @@ export const useHostMsgManager = () => {
       const jbranch = await fetchPath('SVN', 'jbranch');
       const path = await fetchPath('SVN', 'fakeHostMsg');
       const data = await searchFiles(jbranch.toString() + path.toString(), '.txt');
-      setFiles(data.files.map(f => f.name));
+
+      setFiles(data.files);
     } catch (err) {
       setError('Failed to load files');
     } finally {
