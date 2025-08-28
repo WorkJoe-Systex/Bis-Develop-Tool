@@ -29,8 +29,9 @@ export default function FlowModal({ isOpen, onClose, fileName, pathType, trigger
     { id: 2, title: '檢查檔案並建立資料夾', status: 'pending', log: '' },
     { id: 3, title: '合併 CSV 檔案', status: 'pending', log: '' },
     { id: 4, title: '產生 ZIP 檔案', status: 'pending', log: '' },
-    { id: 5, title: 'SVN Commit 已掃', status: 'pending', log: '' },
-    { id: 6, title: 'SVN Commit 待掃', status: 'pending', log: '' },
+    { id: 5, title: 'SVN Add 已掃', status: 'pending', log: '' },
+    { id: 6, title: 'SVN Commit 已掃', status: 'pending', log: '' },
+    { id: 7, title: 'SVN Commit 待掃', status: 'pending', log: '' },
   ]);
 
   const [steps, setSteps] = useState<Step[]>(defaultSteps);
@@ -82,18 +83,18 @@ export default function FlowModal({ isOpen, onClose, fileName, pathType, trigger
           setSelectedFiles([]);
           const bisProjectPath = await fetchPath('local', 'bis-project-dir');
           const notScanPath = await fetchPath('local', 'notScan');
-          const scannedPath = await fetchPath('local', 'scanned');
+          const scannedPath = bisProjectPath + ((await fetchPath('local', 'scanned')).toString());
 
           switch(step.id) {
             case 1 :
               await svnUpdate(bisProjectPath.toString() + notScanPath.toString());
               break;
             case 2 :
-              const repGenFile = await genFile(fileName, bisProjectPath.toString() + scannedPath.toString());
+              const repGenFile = await genFile(fileName, scannedPath.toString());
               return `: ${repGenFile.message}`;
             case 3 :
-              const repMoveFile = await moveFiles(bisProjectPath.toString() + notScanPath.toString(), bisProjectPath.toString() + scannedPath.toString() + '/' + fileName);
-              const files = await searchFiles(bisProjectPath.toString() + scannedPath.toString() + '/' + fileName, '.csv');
+              const repMoveFile = await moveFiles(bisProjectPath.toString() + notScanPath.toString(), scannedPath.toString() + '/' + fileName);
+              const files = await searchFiles(scannedPath.toString() + '/' + fileName, '.csv');
               // setSelectedFiles(files.files.map(f => f.name));
               for (let file of files.files) {
                 if (!file.name.includes(fileName)) {
@@ -103,19 +104,32 @@ export default function FlowModal({ isOpen, onClose, fileName, pathType, trigger
               const repMergeCSV = await mergeCSV(selectedFiles, fileName, 'DEV_' + fileName);
               return `\n    ${repMoveFile.message}\n    CSV：${repMergeCSV.message}`;
             case 4 :
-              const repCompressToZip = await compressToZip(fileName, 'VS', bisProjectPath.toString() + scannedPath.toString() + '\\' + fileName, selectedFiles, pathType, 'NOFILE', false);
+              const repCompressToZip = await compressToZip(
+                fileName,
+                'VS',
+                scannedPath.toString() + '\\' + fileName,
+                selectedFiles,
+                pathType,
+                'NOFILE',
+                false
+              );
               return `: ${repCompressToZip.zipName}`;
             case 5 :
-              await svnAdd(scannedPath.toString(), scannedPath.toString() + '\\' + fileName);
-              await svnCommit(bisProjectPath.toString() + scannedPath.toString(), fileName);
+              await svnAdd(
+                scannedPath.toString(),
+                scannedPath.toString() + '\\' + fileName
+              );
               break;
             case 6 :
+              await svnCommit(scannedPath.toString(), fileName, false);
+              break;
+            case 7 :
               // 先用反斜線或斜線切割
               const segments = notScanPath.split(/[/\\]/).filter(Boolean);
               // 去掉最後一個
               const parentPath = "\\" + segments.slice(0, -1).join("\\");
               const lastFolder = segments[segments.length - 1];
-              await svnCommit(bisProjectPath.toString() + parentPath, lastFolder);
+              await svnCommit(bisProjectPath.toString() + parentPath, lastFolder, true);
               break;
           }
         });
